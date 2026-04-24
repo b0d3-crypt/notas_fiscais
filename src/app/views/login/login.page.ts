@@ -44,7 +44,7 @@ export class LoginPageComponent {
       .subscribe({
         next: (res) => {
           this.authService.setUser(res);
-          this.router.navigate(['/despesas']);
+          this.router.navigate(['/principal/despesas']);
         },
         error: (err) => {
           this.loading = false;

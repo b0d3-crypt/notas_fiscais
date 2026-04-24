@@ -9,9 +9,12 @@
 // BASE
 // =====================================================================
 html, body {
-  height: 100%;
+  @apply h-full;
+}
+
+body {
   margin: 0;
-  font-family: 'Nunito Sans', sans-serif;
+  @apply text-text dark:text-dark-text bg-body dark:bg-dark-body font-nunito;
 }
 
 h1, h2 {
@@ -100,35 +103,6 @@ h1, h2 {
     color: #7f878c;
     font-size: 0.875rem;
     margin-top: 0.25rem;
-  }
-}
-
-// =====================================================================
-// NAV BAR (topo das páginas internas — espelho do modelo)
-// =====================================================================
-.nav {
-  @apply bg-white dark:bg-[#151d2b] flex w-full h-16 py-0 px-4 items-center gap-7 justify-between z-20;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-
-  .nav-brand {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: #ffb902;
-  }
-
-  .nav-data {
-    @apply flex items-center gap-4 mr-4;
-
-    .nav-divider {
-      @apply w-[1px] h-4 block bg-gray-300 dark:bg-gray-700;
-    }
-
-    .nav-user {
-      font-size: 0.875rem;
-      font-weight: 600;
-      @apply text-text dark:text-dark-text;
-    }
   }
 }
 

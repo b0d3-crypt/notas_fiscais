@@ -1,0 +1,45 @@
+<div>
+  <input type="checkbox" name="" id="sidebar-toggle" />
+
+  <!-- Sidebar -->
+  <section class="sidenav">
+    <div class="logo-empresa">
+      <span class="logo-text">Notas Fiscais</span>
+    </div>
+    <div class="side-menu">
+      <ul>
+        <li class="side-item">
+          <a
+            routerLink="/principal/despesas"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: false }"
+          >
+            <mat-icon class="side-icon">receipt_long</mat-icon>
+            <span>Comprovantes</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Conteúdo principal -->
+  <section class="content">
+    <nav class="nav">
+      <label for="sidebar-toggle" class="nav-menu">
+        <mat-icon>menu</mat-icon>
+      </label>
+      <div class="nav-data">
+        <span class="nav-user">{{ userName }}</span>
+        <span class="nav-divider"></span>
+        <button mat-icon-button matTooltip="Sair" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </nav>
+    <main class="main">
+      <router-outlet></router-outlet>
+    </main>
+  </section>
+
+  <label for="sidebar-toggle" class="body-label"></label>
+</div>

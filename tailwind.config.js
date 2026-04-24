@@ -27,6 +27,14 @@ module.exports = {
       },
       boxShadow: {
         outer: '0 2px 8px rgba(0,0,0,0.1)',
+        inner: '-2px 0 4px rgba(0,0,0,0.1)',
+      },
+      height: {
+        header: 'calc(3.5rem + 1.5rem)',
+        nav: 'calc(100% - 90px)',
+      },
+      width: {
+        sidebar: 'calc(100% - 60px)',
       },
     },
   },

@@ -1,0 +1,110 @@
+:host {
+  #sidebar-toggle {
+    @apply hidden;
+  }
+
+  .body-label {
+    @apply fixed h-full w-sidebar z-30 -right-full top-0;
+  }
+
+  #sidebar-toggle:checked {
+    & ~ .sidenav {
+      @apply w-72 left-0 sm:left-0 lg:w-0;
+
+      .side-icon {
+        @apply mr-0 sm:mr-4;
+      }
+
+      .side-menu {
+        @apply py-0 px-4 sm:px-[6px];
+      }
+    }
+
+    & ~ .content {
+      @apply ml-0 sm:ml-72 lg:ml-0 z-40;
+
+      .nav-menu {
+        @apply left-0 right-0;
+      }
+    }
+
+    & ~ .body-label {
+      @apply right-0 sm:-z-30;
+    }
+  }
+
+  .sidenav {
+    @apply fixed w-0 min-h-screen top-0 z-[999] -left-full bg-white dark:bg-dark-white overflow-y-auto no-scrollbar transition-3s lg:w-72 sm:z-0 sm:left-0;
+
+    .side-menu {
+      @apply relative mt-6 px-[6px] py-0 flex flex-col justify-between h-full transition-3s lg:pb-2 lg:px-2;
+
+      .side-item {
+        a {
+          @apply cursor-pointer flex items-center rounded-md text-base pt-3 pb-3 pl-0 transition-3s my-1 mx-0 text-text dark:text-dark-text font-semibold;
+        }
+
+        a span {
+          @apply min-w-max;
+        }
+
+        & > a.active mat-icon {
+          @apply text-accent dark:text-white;
+        }
+
+        & a mat-icon {
+          @apply text-text dark:text-dark-text;
+        }
+
+        & > a:hover {
+          @apply bg-body dark:bg-dark-body;
+        }
+
+        > a.active {
+          @apply bg-body dark:bg-dark-body text-dark-container font-semibold border-l-4 border-primary dark:text-white;
+        }
+
+        .side-icon {
+          @apply min-w-[3.35rem] mr-4 lg:mr-0 flex justify-center items-center text-xl;
+        }
+      }
+    }
+  }
+
+  .logo-empresa {
+    @apply flex h-auto pt-8 pb-4 items-center justify-center px-4;
+
+    .logo-text {
+      @apply font-poppins font-bold text-primary text-lg text-center;
+    }
+  }
+
+  .nav {
+    @apply bg-white dark:bg-[#151d2b] flex w-full h-16 py-0 px-4 items-center gap-7 justify-between z-20;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+
+    .nav-menu {
+      @apply relative text-xl leading-4 cursor-pointer text-text dark:text-white left-0;
+    }
+
+    .nav-data {
+      @apply flex items-center gap-4 mr-4;
+    }
+
+    .nav-user {
+      @apply text-sm font-semibold text-text dark:text-dark-text;
+    }
+
+    .nav-divider {
+      @apply w-[1px] h-4 block bg-gray-300 dark:bg-gray-700;
+    }
+  }
+
+  .content {
+    @apply ml-0 sm:ml-0 lg:ml-72 min-h-screen;
+  }
+
+  .main {
+    @apply w-full z-50;
+  }
+}
