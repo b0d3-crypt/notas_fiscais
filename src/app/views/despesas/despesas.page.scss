@@ -7,7 +7,7 @@
 // Linha separadora de mês
 .month-separator-row {
   td {
-    background-color: #000f1a !important;
+    background-color: rgba(255, 185, 2, 0.12) !important;
     color: #ffb902 !important;
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 700;
@@ -16,6 +16,7 @@
     letter-spacing: 0.1em;
     padding: 0.35rem 1rem !important;
     border-bottom: none !important;
+    border-left: 3px solid #ffb902;
   }
 }
 
@@ -51,6 +52,14 @@
     margin-top: 0.75rem;
     font-size: 0.875rem;
     @apply text-text dark:text-dark-text;
+  }
+}
+
+.btn-download-white {
+  color: #ffffff !important;
+
+  .mat-icon {
+    color: #ffffff !important;
   }
 }
 

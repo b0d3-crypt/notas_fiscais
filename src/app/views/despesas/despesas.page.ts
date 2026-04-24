@@ -77,9 +77,12 @@ export class DespesasPageComponent implements OnInit {
     let lastKey = '';
 
     for (const item of items) {
-      const key = item.dtDespesa; // "MM/yyyy"
+      // dtDespesa pode vir como "dd/MM/yyyy" ou "MM/yyyy"
+      const parts = item.dtDespesa.split('/');
+      const mm = parts.length === 3 ? parts[1] : parts[0];
+      const yyyy = parts.length === 3 ? parts[2] : parts[1];
+      const key = `${mm}/${yyyy}`;
       if (key !== lastKey) {
-        const [mm, yyyy] = key.split('/');
         const monthName = months[parseInt(mm, 10) - 1];
         rows.push({ isSeparator: true, monthLabel: `${monthName} / ${yyyy}` });
         lastKey = key;

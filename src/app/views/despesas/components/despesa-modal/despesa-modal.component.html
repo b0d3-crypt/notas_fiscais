@@ -43,9 +43,9 @@
 
       <!-- Data Despesa -->
       <div class="field-col">
-        <label class="field-label">Data da Despesa (Mês/Ano) *</label>
+        <label class="field-label">Data da Despesa *</label>
         <input
-          type="month"
+          type="date"
           formControlName="dtDespesa"
           class="field-input"
           [class.field-input--error]="form.get('dtDespesa')?.invalid && form.get('dtDespesa')?.touched"

@@ -18,10 +18,39 @@
   .mat-form-field-appearance-outline .mat-form-field-outline {
     color: #d1d5db;
   }
+
   .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
     color: #ffb902 !important;
   }
+
   .mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
     color: #ffb902 !important;
+  }
+
+  // Remove estilo de autopreenchimento do navegador (light mode)
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: #000f1a !important;
+    caret-color: #000f1a;
+    transition: background-color 9999s ease-in-out 0s;
+  }
+}
+
+// Autofill no dark mode (seletor precisa estar fora do ::ng-deep para alcançar .dark no html)
+:host-context(.dark) {
+  ::ng-deep {
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 1000px #0f172a inset !important;
+      -webkit-text-fill-color: #e2e8f0 !important;
+      caret-color: #e2e8f0;
+      transition: background-color 9999s ease-in-out 0s;
+    }
   }
 }

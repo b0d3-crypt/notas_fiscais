@@ -26,7 +26,7 @@
 
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>E-mail</mat-label>
-          <input matInput type="email" formControlName="email" placeholder="seu@email.com" />
+          <input matInput type="email" formControlName="email" placeholder="seu@email.com" autocomplete="new-password" />
           <mat-icon matSuffix class="text-text">alternate_email</mat-icon>
           <mat-error *ngIf="form.get('email')?.hasError('required')">E-mail obrigatório</mat-error>
           <mat-error *ngIf="form.get('email')?.hasError('email')">E-mail inválido</mat-error>
@@ -38,6 +38,7 @@
             matInput
             [type]="hidePassword ? 'password' : 'text'"
             formControlName="password"
+            autocomplete="new-password"
           />
           <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>

@@ -99,10 +99,10 @@ export class DespesaModalComponent implements OnInit {
     });
   }
 
-  private parseDtDespesa(mmYyyy: string): string {
-    // "MM/yyyy" -> "yyyy-MM" for input[type=month]
-    const [mm, yyyy] = mmYyyy.split('/');
-    return `${yyyy}-${mm}`;
+  private parseDtDespesa(ddMmYyyy: string): string {
+    // "dd/MM/yyyy" -> "yyyy-MM-dd" for input[type=date]
+    const [dd, mm, yyyy] = ddMmYyyy.split('/');
+    return `${yyyy}-${mm}-${dd}`;
   }
 
   onFileSelected(event: Event): void {
@@ -174,7 +174,9 @@ export class DespesaModalComponent implements OnInit {
       fd.append('arquivo', this.selectedFile);
     }
     if (dtDespesa) {
-      fd.append('dtDespesa', dtDespesa); // "yyyy-MM"
+      // Converte "yyyy-MM-dd" (input[type=date]) -> "dd/MM/yyyy" (formato do back)
+      const [yyyy, mm, dd] = (dtDespesa as string).split('-');
+      fd.append('dtDespesa', `${dd}/${mm}/${yyyy}`);
     }
     if (vlDespesa != null) {
       fd.append('vlDespesa', String(vlDespesa));
