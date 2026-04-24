@@ -1,0 +1,68 @@
+// O layout de cores/cards vem do styles.scss global (espelho do modelo)
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+// Linha separadora de mês
+.month-separator-row {
+  td {
+    background-color: #000f1a !important;
+    color: #ffb902 !important;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.35rem 1rem !important;
+    border-bottom: none !important;
+  }
+}
+
+// Linha de dado
+.data-row {
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.tipo-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  @apply bg-body dark:bg-dark-body text-text dark:text-dark-text;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+
+  mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    @apply text-gray-400 dark:text-gray-600;
+  }
+
+  p {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    @apply text-text dark:text-dark-text;
+  }
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+// mat-spinner no dark mode
+::ng-deep .mat-progress-spinner circle {
+  stroke: #ffb902;
+}

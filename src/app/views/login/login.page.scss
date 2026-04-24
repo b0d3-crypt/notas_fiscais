@@ -1,0 +1,27 @@
+.btn-spinner {
+  ::ng-deep circle {
+    stroke: #000f1a;
+  }
+}
+
+.auth-version {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: #d1d5db;
+  }
+  .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: #ffb902 !important;
+  }
+  .mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
+    color: #ffb902 !important;
+  }
+}

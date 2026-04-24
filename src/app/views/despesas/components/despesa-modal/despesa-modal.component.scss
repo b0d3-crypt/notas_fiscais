@@ -1,0 +1,182 @@
+.modal-wrap {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  overflow: hidden;
+  background: white;
+  border-radius: 8px;
+}
+
+// Toolbar — espelho do modelo: bg-[#f0f1f5] dark:bg-dark-body
+.modal-toolbar {
+  border-radius: 8px 8px 0 0 !important;
+  @apply bg-[#f0f1f5] dark:bg-dark-body text-accent dark:text-white;
+  min-height: 52px !important;
+  height: 52px !important;
+  padding: 0 1rem !important;
+}
+
+.modal-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.modal-body {
+  padding: 1.25rem 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  @apply bg-white dark:bg-dark-white;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+// ---- Field styles ----
+.field-row {
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3f4f6;
+
+  @apply dark:border-gray-800;
+}
+
+.field-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+
+  &--full {
+    grid-column: span 2;
+  }
+}
+
+.field-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  @apply text-text dark:text-dark-text;
+  white-space: nowrap;
+  min-width: 110px;
+}
+
+.field-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  @apply text-accent dark:text-white;
+}
+
+.tipo-chip {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+  @apply bg-body dark:bg-dark-body text-text dark:text-dark-text;
+}
+
+.field-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: 'Nunito Sans', sans-serif;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  @apply bg-white dark:bg-dark-body text-accent dark:text-white;
+
+  &:focus {
+    outline: none;
+    border-color: #ffb902;
+    box-shadow: 0 0 0 2px rgba(255, 185, 2, 0.2);
+  }
+
+  &--error {
+    border-color: #ef4444 !important;
+  }
+
+  &:disabled {
+    @apply bg-gray-100 dark:bg-dark-container text-text dark:text-dark-text;
+    cursor: default;
+  }
+}
+
+.field-textarea {
+  resize: vertical;
+  min-height: 64px;
+}
+
+.field-error {
+  font-size: 0.75rem;
+  color: #ef4444;
+}
+
+.upload-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px dashed #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  @apply bg-white dark:bg-dark-body;
+
+  &:hover {
+    border-color: #ffb902;
+  }
+
+  &--error {
+    border-color: #ef4444;
+  }
+
+  .upload-icon {
+    font-size: 1.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    @apply text-text dark:text-dark-text;
+    flex-shrink: 0;
+  }
+
+  .upload-text {
+    flex: 1;
+    font-size: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    @apply text-text dark:text-dark-text;
+  }
+}
+
+// Footer
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  border-top: 1px solid #e5e7eb;
+  border-radius: 0 0 8px 8px;
+  @apply bg-[#f9fafb] dark:bg-dark-body dark:border-gray-800;
+}
+
+.btn-spinner {
+  ::ng-deep circle {
+    stroke: #000f1a;
+  }
+}
+
+::ng-deep {
+  // Dark mode dialog container
+  .dark .modal-wrap {
+    background: #0f172a;
+  }
+}

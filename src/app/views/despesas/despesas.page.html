@@ -1,0 +1,123 @@
+<!-- NAV BAR -->
+<nav class="nav">
+  <span class="nav-brand">Notas Fiscais</span>
+  <div class="nav-data">
+    <span class="nav-user">{{ authService.getUser()?.nmPessoa }}</span>
+    <div class="nav-divider"></div>
+    <button mat-icon-button class="dark-icon-btn" matTooltip="Sair" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="card mt-2">
+  <div class="card-content">
+
+    <!-- Toolbar -->
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="subtitle m-0">Comprovantes de Despesa</h3>
+      <button mat-flat-button class="btn-primary-yellow" (click)="openCreateModal()">
+        <mat-icon class="mr-1">add</mat-icon>
+        Novo Comprovante
+      </button>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="flex justify-center py-10">
+      <mat-spinner diameter="36"></mat-spinner>
+    </div>
+
+    <!-- Table -->
+    <div *ngIf="!loading" class="table-wrapper">
+
+      <table mat-table [dataSource]="tableData" class="w-full">
+
+        <!-- Pessoa -->
+        <ng-container matColumnDef="nmPessoa">
+          <th mat-header-cell *matHeaderCellDef>Pessoa</th>
+          <td mat-cell *matCellDef="let row">
+            <ng-container *ngIf="!row.isSeparator">{{ row.nmPessoa }}</ng-container>
+          </td>
+        </ng-container>
+
+        <!-- Arquivo -->
+        <ng-container matColumnDef="nmArquivo">
+          <th mat-header-cell *matHeaderCellDef>Arquivo</th>
+          <td mat-cell *matCellDef="let row">
+            <ng-container *ngIf="!row.isSeparator">
+              {{ row.nmArquivo }}&nbsp;<span class="tipo-badge">{{ tipoArquivo[row.tpArquivo]?.label ?? '' }}</span>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <!-- Data Despesa -->
+        <ng-container matColumnDef="dtDespesa">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Data</th>
+          <td mat-cell *matCellDef="let row" class="text-center">
+            <ng-container *ngIf="!row.isSeparator">{{ row.dtDespesa }}</ng-container>
+          </td>
+        </ng-container>
+
+        <!-- Valor -->
+        <ng-container matColumnDef="vlDespesa">
+          <th mat-header-cell *matHeaderCellDef class="text-right">Valor</th>
+          <td mat-cell *matCellDef="let row" class="text-right font-semibold">
+            <ng-container *ngIf="!row.isSeparator">{{ formatCurrency(row.vlDespesa) }}</ng-container>
+          </td>
+        </ng-container>
+
+        <!-- Download -->
+        <ng-container matColumnDef="download">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Download</th>
+          <td mat-cell *matCellDef="let row" class="text-center">
+            <ng-container *ngIf="!row.isSeparator">
+              <button mat-icon-button color="primary" matTooltip="Baixar arquivo"
+                (click)="download($event, row)">
+                <mat-icon>download</mat-icon>
+              </button>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <!-- Excluir -->
+        <ng-container matColumnDef="excluir">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Excluir</th>
+          <td mat-cell *matCellDef="let row" class="text-center">
+            <ng-container *ngIf="!row.isSeparator && canEditOrDelete(row)">
+              <button mat-icon-button color="warn" matTooltip="Excluir"
+                (click)="confirmDelete($event, row)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <!-- Coluna do separador de mês (ocupa todas) -->
+        <ng-container matColumnDef="monthSeparator">
+          <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length"
+            class="month-sep-cell">
+            {{ row.monthLabel }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+        <!-- Linha separadora de mês -->
+        <tr mat-row *matRowDef="let row; columns: ['monthSeparator']; when: isSeparator"
+          class="month-separator-row"></tr>
+
+        <!-- Linha de dado -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns; when: isData"
+          class="data-row" (click)="openRowModal(row)"></tr>
+
+      </table>
+
+      <div *ngIf="tableData.length === 0" class="empty-state">
+        <mat-icon>inbox</mat-icon>
+        <p>Nenhuma despesa cadastrada</p>
+      </div>
+    </div>
+
+  </div>
+</div>

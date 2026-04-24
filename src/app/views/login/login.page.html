@@ -1,0 +1,65 @@
+<section class="auth">
+  <div class="auth-container">
+
+    <!-- Lado esquerdo: hero escuro -->
+    <div class="auth-hero">
+      <div class="hero-icon">
+        <mat-icon style="font-size:5rem;width:5rem;height:5rem;color:rgba(255,185,2,0.2)">receipt_long</mat-icon>
+      </div>
+      <div class="hero-brand">
+        <h1>Notas Fiscais</h1>
+        <p>Gestão de comprovantes e despesas</p>
+      </div>
+    </div>
+
+    <!-- Lado direito: formulário -->
+    <div class="auth-form">
+      <div class="auth-title">
+        <h2>
+          Acessar<br>
+          <span>Portal de Despesas</span>
+        </h2>
+        <p>Preencha seus dados para acessar o sistema</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off">
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="seu@email.com" />
+          <mat-icon matSuffix class="text-text">alternate_email</mat-icon>
+          <mat-error *ngIf="form.get('email')?.hasError('required')">E-mail obrigatório</mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">E-mail inválido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full mt-2">
+          <mat-label>Senha</mat-label>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+          />
+          <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('password')?.hasError('required')">Senha obrigatória</mat-error>
+          <mat-error *ngIf="form.get('password')?.hasError('minlength')">Mínimo 6 caracteres</mat-error>
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          type="submit"
+          class="btn-primary-yellow w-full mt-6"
+          [disabled]="loading"
+        >
+          <mat-spinner *ngIf="loading" diameter="20" class="inline-block mr-2 btn-spinner"></mat-spinner>
+          {{ loading ? 'Entrando...' : 'Entrar' }}
+        </button>
+
+      </form>
+
+      <p class="auth-version">v1.0.0</p>
+    </div>
+
+  </div>
+</section>

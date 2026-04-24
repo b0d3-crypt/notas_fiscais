@@ -1,0 +1,127 @@
+<div class="modal-wrap">
+
+  <!-- Toolbar (igual ao modelo: bg-body dark:bg-dark-body) -->
+  <mat-toolbar class="modal-toolbar">
+    <mat-icon class="mr-2 text-primary">receipt_long</mat-icon>
+    <span class="modal-title">{{ getModalTitle() }}</span>
+    <span class="flex-1"></span>
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="flex justify-center py-8">
+    <mat-spinner diameter="32"></mat-spinner>
+  </div>
+
+  <!-- Body -->
+  <div *ngIf="!loading" class="modal-body" [formGroup]="form">
+
+    <div class="modal-grid">
+
+      <!-- Pessoa (readonly) -->
+      <div class="field-row" *ngIf="detail">
+        <span class="field-label">Pessoa</span>
+        <span class="field-value">{{ detail.nmPessoa }}</span>
+      </div>
+
+      <!-- Arquivo atual (edit/view) -->
+      <div class="field-row" *ngIf="detail">
+        <span class="field-label">Arquivo</span>
+        <span class="field-value">
+          {{ detail.nmArquivo }}
+          <span class="tipo-chip">{{ tipoArquivo[detail.tpArquivo]?.label ?? '' }}</span>
+        </span>
+      </div>
+
+      <!-- Data de registro (edit/view) -->
+      <div class="field-row" *ngIf="detail && (isEdit || isView)">
+        <span class="field-label">Registrado em</span>
+        <span class="field-value">{{ detail.dtArquivo }}</span>
+      </div>
+
+      <!-- Data Despesa -->
+      <div class="field-col">
+        <label class="field-label">Data da Despesa (Mês/Ano) *</label>
+        <input
+          type="month"
+          formControlName="dtDespesa"
+          class="field-input"
+          [class.field-input--error]="form.get('dtDespesa')?.invalid && form.get('dtDespesa')?.touched"
+        />
+        <span class="field-error" *ngIf="form.get('dtDespesa')?.invalid && form.get('dtDespesa')?.touched">
+          Campo obrigatório
+        </span>
+      </div>
+
+      <!-- Valor -->
+      <div class="field-col">
+        <label class="field-label">Valor da Despesa (R$) *</label>
+        <input
+          type="number"
+          step="0.01"
+          min="0"
+          formControlName="vlDespesa"
+          class="field-input"
+          placeholder="0.00"
+          [class.field-input--error]="form.get('vlDespesa')?.invalid && form.get('vlDespesa')?.touched"
+        />
+        <span class="field-error" *ngIf="form.get('vlDespesa')?.invalid && form.get('vlDespesa')?.touched">
+          Valor obrigatório (maior que zero)
+        </span>
+      </div>
+
+      <!-- Descrição -->
+      <div class="field-col field-col--full">
+        <label class="field-label">Descrição</label>
+        <textarea
+          formControlName="dsDespesa"
+          class="field-input field-textarea"
+          rows="2"
+          placeholder="Descrição opcional..."
+        ></textarea>
+      </div>
+
+      <!-- Upload -->
+      <div class="field-col field-col--full" *ngIf="!isView">
+        <label class="field-label">
+          {{ isCreate ? 'Arquivo *' : 'Substituir Arquivo (opcional)' }}
+        </label>
+        <label class="upload-label" [class.upload-label--error]="fileError && !selectedFile">
+          <input
+            type="file"
+            class="hidden"
+            [accept]="ACCEPTED_TYPES"
+            (change)="onFileSelected($event)"
+          />
+          <mat-icon class="upload-icon">attach_file</mat-icon>
+          <span class="upload-text">
+            {{ selectedFile ? selectedFile.name : 'Selecionar arquivo (PDF, JPEG, PNG, GIF · máx 2 MB)' }}
+          </span>
+          <button *ngIf="selectedFile" mat-icon-button color="warn" type="button"
+            (click)="removeFile(); $event.preventDefault()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </label>
+        <span class="field-error" *ngIf="fileError">{{ fileError }}</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="modal-footer">
+    <ng-container *ngIf="isView">
+      <button mat-stroked-button class="btn-outline-primary" (click)="close()">Fechar</button>
+    </ng-container>
+    <ng-container *ngIf="!isView">
+      <button mat-stroked-button (click)="close()" [disabled]="saving">Cancelar</button>
+      <button mat-flat-button class="btn-primary-yellow" (click)="save()" [disabled]="saving">
+        <mat-spinner *ngIf="saving" diameter="16" class="inline-block mr-1 btn-spinner"></mat-spinner>
+        {{ saving ? 'Salvando...' : 'Salvar' }}
+      </button>
+    </ng-container>
+  </div>
+
+</div>

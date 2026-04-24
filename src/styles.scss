@@ -1,0 +1,303 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+// =====================================================================
+// BASE
+// =====================================================================
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+h1, h2 {
+  @apply text-accent dark:text-white mb-2;
+}
+
+::-webkit-scrollbar {
+  @apply w-[.4rem] h-[.4rem] rounded bg-[#BDBDBD] dark:bg-[#4C545F];
+}
+::-webkit-scrollbar-thumb {
+  @apply rounded bg-[#434343] dark:bg-[#1F2937];
+}
+
+// =====================================================================
+// AUTH / LOGIN LAYOUT  (espelho exato do modelo)
+// =====================================================================
+.auth {
+  @apply bg-body dark:bg-dark-container w-full h-screen flex justify-center items-center;
+}
+
+.auth-container {
+  @apply w-full h-screen flex lg:w-4/5 lg:h-[80vh] lg:rounded-lg overflow-hidden shadow-2xl;
+}
+
+.auth-hero {
+  @apply hidden lg:flex flex-col justify-center items-center p-12 flex-1;
+  background: linear-gradient(135deg, #000f1a 0%, #1a2035 100%);
+
+  .hero-brand {
+    text-align: center;
+
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ffb902;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: #9eacbf;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+  }
+
+  .hero-icon {
+    font-size: 6rem;
+    color: rgba(255, 185, 2, 0.15);
+    margin-bottom: 2rem;
+  }
+}
+
+.auth-form {
+  @apply flex flex-col justify-center bg-white dark:bg-dark-white relative;
+  flex: 1;
+  padding: 3rem 2.5rem;
+
+  @media (min-width: 1024px) {
+    border-radius: 0 8px 8px 0;
+  }
+  @media (max-width: 1023px) {
+    border-radius: 0;
+    padding: 2rem 1.5rem;
+  }
+}
+
+.auth-title {
+  margin-bottom: 2rem;
+
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000f1a;
+    margin-bottom: 0.25rem !important;
+  }
+
+  span {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #ffb902;
+  }
+
+  p {
+    color: #7f878c;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+}
+
+// =====================================================================
+// NAV BAR (topo das páginas internas — espelho do modelo)
+// =====================================================================
+.nav {
+  @apply bg-white dark:bg-[#151d2b] flex w-full h-16 py-0 px-4 items-center gap-7 justify-between z-20;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+
+  .nav-brand {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #ffb902;
+  }
+
+  .nav-data {
+    @apply flex items-center gap-4 mr-4;
+
+    .nav-divider {
+      @apply w-[1px] h-4 block bg-gray-300 dark:bg-gray-700;
+    }
+
+    .nav-user {
+      font-size: 0.875rem;
+      font-weight: 600;
+      @apply text-text dark:text-dark-text;
+    }
+  }
+}
+
+// =====================================================================
+// CARD  (espelho do modelo)
+// =====================================================================
+.card {
+  @apply p-3;
+
+  .card-content {
+    @apply mx-0 md:mx-4 p-4 mb-4 bg-white dark:bg-dark-white shadow relative rounded;
+  }
+}
+
+.subtitle {
+  @apply mb-4 text-accent dark:text-primary font-bold font-nunito;
+}
+
+// =====================================================================
+// ANGULAR MATERIAL TABLE — dark-mode aware  (espelho do modelo)
+// =====================================================================
+.mat-table {
+  background-color: transparent !important;
+  width: 100%;
+}
+
+.mat-header-row,
+.mat-row,
+.mat-cell,
+.mat-header-cell {
+  background-color: transparent !important;
+  @apply text-text dark:text-white;
+}
+
+.mat-header-cell {
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  @apply text-accent dark:text-dark-text;
+  border-bottom: 2px solid #e5e7eb !important;
+}
+
+.mat-cell {
+  font-size: 0.875rem;
+  border-bottom-color: #f3f4f6 !important;
+  @apply dark:border-gray-800;
+}
+
+tr.mat-row:hover {
+  background-color: rgba(255, 185, 2, 0.06) !important;
+  cursor: pointer;
+}
+
+// =====================================================================
+// MONTH SEPARATOR ROW
+// =====================================================================
+.month-separator-row td {
+  background-color: #000f1a !important;
+  color: #ffb902 !important;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 1rem !important;
+  border-bottom: none !important;
+}
+
+// =====================================================================
+// SNACKBAR  (espelho exato do modelo)
+// =====================================================================
+.mat-snack-bar-container {
+  &.alert {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    border-radius: 8px !important;
+  }
+
+  &.alert-error {
+    background-color: #b91c1c !important;
+    color: white !important;
+  }
+
+  &.alert-success {
+    background-color: #4d7c0f !important;
+    color: white !important;
+  }
+
+  &.alert-warning {
+    background-color: #eab308 !important;
+    color: black !important;
+  }
+
+  &.alert-default {
+    background-color: #1d4ed8 !important;
+    color: white !important;
+  }
+}
+
+// =====================================================================
+// DIALOG / MODAL  (espelho do modelo)
+// =====================================================================
+.mat-dialog-container {
+  background: white !important;
+  padding: 0 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+.dark .mat-dialog-container {
+  background: #0f172a !important;
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+
+// =====================================================================
+// MATERIAL FORM FIELDS
+// =====================================================================
+.mat-form-field {
+  font-size: 14px !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #d1d5db !important;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #ffb902 !important;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
+  color: #ffb902 !important;
+}
+
+// =====================================================================
+// BUTTONS — Material overrides
+// =====================================================================
+.btn-primary-yellow {
+  background-color: #ffb902 !important;
+  color: #000f1a !important;
+  font-weight: 600 !important;
+  font-family: 'Nunito Sans', sans-serif !important;
+  border-radius: 24px !important;
+  height: 44px;
+
+  &:hover:not([disabled]) {
+    background-color: #e6a700 !important;
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+  }
+}
+
+.btn-outline-primary {
+  border-color: #ffb902 !important;
+  color: #ffb902 !important;
+  font-weight: 600 !important;
+  font-family: 'Nunito Sans', sans-serif !important;
+  border-radius: 24px !important;
+}
+
+// mat-icon-button in dark header
+.dark-icon-btn {
+  color: #9eacbf !important;
+}
