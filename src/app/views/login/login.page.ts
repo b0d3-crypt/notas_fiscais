@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiService } from '../../shared/api.service';
 import { AuthService } from '../../core/auth/auth.service';
+import { ApiService } from '../../shared/api.service';
 import { SnackbarService } from '../../shared/snackbar.service';
 
 @Component({
@@ -37,7 +37,7 @@ export class LoginPageComponent {
     this.loading = true;
 
     this.api
-      .post<{ token: string; nmPessoa: string; cdPessoa: number; role: number }>(
+      .post<{ token: string; nmPessoa: string; cdPessoa: number; cdWebUser: number; role: number }>(
         '/auth/login',
         this.form.value
       )

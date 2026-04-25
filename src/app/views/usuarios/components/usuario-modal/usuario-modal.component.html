@@ -1,0 +1,181 @@
+<div class="modal-wrap">
+
+  <!-- Header -->
+  <mat-toolbar class="modal-toolbar">
+    <mat-icon class="mr-2 text-primary">manage_accounts</mat-icon>
+    <span class="modal-title">{{ isCreate ? 'Novo Usuário' : 'Editar Usuário' }}</span>
+    <span class="flex-1"></span>
+    <button mat-icon-button type="button" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="flex justify-center py-8">
+    <mat-spinner diameter="32"></mat-spinner>
+  </div>
+
+  <!-- Body -->
+  <div *ngIf="!loading" class="modal-body">
+    <!-- Tabs só aparecem no modo edição -->
+    <mat-tab-group *ngIf="isEdit" [(selectedIndex)]="activeTab">
+      <mat-tab label="Dados Gerais">
+        <div class="tab-content">
+          <ng-container *ngTemplateOutlet="dadosGeraisForm"></ng-container>
+        </div>
+      </mat-tab>
+      <mat-tab label="Alterar Senha">
+        <div class="tab-content">
+          <ng-container *ngTemplateOutlet="senhaForm"></ng-container>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+    <!-- Modo criação: tudo em um único form -->
+    <div *ngIf="isCreate">
+      <ng-container *ngTemplateOutlet="dadosGeraisForm"></ng-container>
+      <h4 class="section-title">Senha</h4>
+      <ng-container *ngTemplateOutlet="senhaForm"></ng-container>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="modal-footer">
+    <app-button color="basic" size="small" (click)="close()">Cancelar</app-button>
+    <app-button color="default" size="small" (click)="save()" [disabled]="saving">
+      <mat-spinner *ngIf="saving" diameter="16" class="inline-block mr-1"></mat-spinner>
+      {{ saving ? 'Salvando...' : 'Salvar' }}
+    </app-button>
+  </div>
+
+</div>
+
+<!-- Template: Dados Gerais -->
+<ng-template #dadosGeraisForm>
+    <form [formGroup]="dadosForm" class="form-grid">
+        <h4 class="section-title">Dados Pessoais</h4>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome Completo</mat-label>
+            <input matInput formControlName="nmPessoa" autocomplete="off" />
+            <mat-error *ngIf="dadosForm.get('nmPessoa')?.hasError('required')">Campo obrigatório</mat-error>
+        </mat-form-field>
+
+        <div class="two-col">
+            <mat-form-field appearance="outline">
+                <mat-label>CPF</mat-label>
+                <input matInput formControlName="nrCpf" placeholder="000.000.000-00" autocomplete="off"
+                    maxlength="14" />
+                <mat-error *ngIf="dadosForm.get('nrCpf')?.hasError('required')">Campo obrigatório</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="nmEmail" autocomplete="off" />
+                <mat-error *ngIf="dadosForm.get('nmEmail')?.hasError('required')">Campo obrigatório</mat-error>
+                <mat-error *ngIf="dadosForm.get('nmEmail')?.hasError('email')">Email inválido</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="two-col">
+            <mat-form-field appearance="outline">
+                <mat-label>Telefone</mat-label>
+                <input matInput formControlName="nrTelefone" autocomplete="off" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Perfil</mat-label>
+                <mat-select formControlName="tpResponsabilidade">
+                    <mat-option [value]="0">Admin</mat-option>
+                    <mat-option [value]="1">Usuário</mat-option>
+                </mat-select>
+                <mat-error *ngIf="dadosForm.get('tpResponsabilidade')?.hasError('required')">Campo
+                    obrigatório</mat-error>
+            </mat-form-field>
+        </div>
+
+        <h4 class="section-title">Endereço</h4>
+
+        <div class="two-col">
+            <mat-form-field appearance="outline">
+                <mat-label>CEP</mat-label>
+                <input matInput formControlName="nrCep" maxlength="9" autocomplete="off"
+                    cepMask (blur)="buscarCep()" placeholder="00000-000" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Logradouro</mat-label>
+                <input matInput formControlName="nmLogradouro" autocomplete="off" />
+            </mat-form-field>
+        </div>
+
+        <div class="three-col">
+            <mat-form-field appearance="outline">
+                <mat-label>Número</mat-label>
+                <input matInput formControlName="nrEndereco" autocomplete="off" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Complemento</mat-label>
+                <input matInput formControlName="dsEndereco" autocomplete="off" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Bairro</mat-label>
+                <input matInput formControlName="bairro" autocomplete="off" />
+            </mat-form-field>
+        </div>
+
+        <div class="two-col">
+            <mat-form-field appearance="outline">
+                <mat-label>Cidade</mat-label>
+                <input matInput formControlName="cidade" autocomplete="off" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Estado</mat-label>
+                <input matInput formControlName="estado" maxlength="2" autocomplete="off" />
+            </mat-form-field>
+        </div>
+    </form>
+</ng-template>
+
+<!-- Template: Senha -->
+<ng-template #senhaForm>
+    <form [formGroup]="senhaFormGroup" class="form-grid">
+
+        <!-- Senha Atual — apenas no modo edição -->
+        <mat-form-field *ngIf="isEdit" appearance="outline" class="full-width">
+            <mat-label>Senha Atual</mat-label>
+            <input matInput [type]="hideSenhaAtual ? 'password' : 'text'" formControlName="senhaAtual"
+                autocomplete="current-password" />
+            <button mat-icon-button matSuffix type="button" (click)="hideSenhaAtual = !hideSenhaAtual">
+                <mat-icon>{{ hideSenhaAtual ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="senhaFormGroup.get('senhaAtual')?.hasError('required')">Campo obrigatório</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nova Senha</mat-label>
+            <input matInput [type]="hideSenha ? 'password' : 'text'" formControlName="password"
+                autocomplete="new-password" />
+            <button mat-icon-button matSuffix type="button" (click)="hideSenha = !hideSenha">
+                <mat-icon>{{ hideSenha ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="senhaFormGroup.get('password')?.hasError('required')">Campo obrigatório</mat-error>
+            <mat-error *ngIf="senhaFormGroup.get('password')?.hasError('minlength')">Mínimo 6 caracteres</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Confirmar Nova Senha</mat-label>
+            <input matInput [type]="hideSenhaConfirm ? 'password' : 'text'" formControlName="confirmPassword"
+                autocomplete="new-password" />
+            <button mat-icon-button matSuffix type="button" (click)="hideSenhaConfirm = !hideSenhaConfirm">
+                <mat-icon>{{ hideSenhaConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="senhaFormGroup.get('confirmPassword')?.hasError('required')">Campo obrigatório</mat-error>
+            <mat-error *ngIf="senhaFormGroup.hasError('senhasNaoConferem')">Senhas não conferem</mat-error>
+        </mat-form-field>
+
+    </form>
+</ng-template>

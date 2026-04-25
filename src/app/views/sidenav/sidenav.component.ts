@@ -8,10 +8,14 @@ import { AuthService } from '../../core/auth/auth.service';
   styleUrls: ['./sidenav.component.scss'],
 })
 export class SidenavComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   get userName(): string {
     return this.authService.getUser()?.nmPessoa ?? '';
+  }
+
+  get isAdmin(): boolean {
+    return this.authService.isAdmin();
   }
 
   isLinkActive(route: string): boolean {

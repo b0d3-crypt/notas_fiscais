@@ -1,0 +1,114 @@
+<div *ngIf="loading" class="flex justify-center py-8">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>
+
+<form *ngIf="!loading" [formGroup]="dadosForm">
+
+  <app-card [titulo]="'Dados Pessoais'">
+    <app-button card-button size="small" color="default" (click)="saveDados()" [disabled]="saving">
+      Salvar Dados
+    </app-button>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome Completo</mat-label>
+        <input matInput formControlName="nmPessoa" />
+        <mat-error *ngIf="dadosForm.get('nmPessoa')?.hasError('required')">Campo obrigatório</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>CPF</mat-label>
+        <input matInput formControlName="nrCpf" readonly />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="nmEmail" />
+        <mat-error *ngIf="dadosForm.get('nmEmail')?.hasError('required')">Campo obrigatório</mat-error>
+        <mat-error *ngIf="dadosForm.get('nmEmail')?.hasError('email')">Email inválido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="nrTelefone" />
+      </mat-form-field>
+    </div>
+
+    <h4 class="subtitle text-sm mt-2 mb-2">Endereço</h4>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+      <mat-form-field appearance="outline">
+        <mat-label>CEP</mat-label>
+        <input matInput formControlName="nrCep" maxlength="9" cepMask (blur)="buscarCep()" placeholder="00000-000" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Logradouro</mat-label>
+        <input matInput formControlName="nmLogradouro" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Número</mat-label>
+        <input matInput formControlName="nrEndereco" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Complemento</mat-label>
+        <input matInput formControlName="dsEndereco" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Bairro</mat-label>
+        <input matInput formControlName="bairro" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cidade</mat-label>
+        <input matInput formControlName="cidade" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <input matInput formControlName="estado" maxlength="2" />
+      </mat-form-field>
+    </div>
+  </app-card>
+
+  <app-card [titulo]="'Alterar Senha'">
+    <app-button card-button size="small" color="default" (click)="saveSenha()" [disabled]="saving">
+      Alterar Senha
+    </app-button>
+
+    <div [formGroup]="senhaForm" class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+
+      <mat-form-field appearance="outline" class="md:col-span-2">
+        <mat-label>Senha Atual</mat-label>
+        <input matInput [type]="hideSenhaAtual ? 'password' : 'text'" formControlName="senhaAtual"
+          autocomplete="current-password" />
+        <button mat-icon-button matSuffix type="button" (click)="hideSenhaAtual = !hideSenhaAtual">
+          <mat-icon>{{ hideSenhaAtual ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="senhaForm.get('senhaAtual')?.hasError('required')">Campo obrigatório</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nova Senha</mat-label>
+        <input matInput [type]="hideSenha ? 'password' : 'text'" formControlName="password" autocomplete="new-password" />
+        <button mat-icon-button matSuffix type="button" (click)="hideSenha = !hideSenha">
+          <mat-icon>{{ hideSenha ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="senhaForm.get('password')?.hasError('minlength')">Mínimo 6 caracteres</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Confirmar Nova Senha</mat-label>
+        <input matInput [type]="hideSenhaConfirm ? 'password' : 'text'" formControlName="confirmPassword" autocomplete="new-password" />
+        <button mat-icon-button matSuffix type="button" (click)="hideSenhaConfirm = !hideSenhaConfirm">
+          <mat-icon>{{ hideSenhaConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="senhaForm.hasError('senhasNaoConferem')">Senhas não conferem</mat-error>
+      </mat-form-field>
+
+    </div>
+  </app-card>
+
+</form>

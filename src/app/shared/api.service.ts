@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -13,7 +13,7 @@ export interface ApiResponse<T> {
 export class ApiService {
   private base = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   get<T>(path: string, params?: Record<string, unknown>): Observable<T> {
     return this.http
@@ -41,6 +41,12 @@ export class ApiService {
 
   delete(path: string): Observable<void> {
     return this.http.delete<void>(`${this.base}${path}`);
+  }
+
+  put<T>(path: string, body: unknown): Observable<T> {
+    return this.http
+      .put<ApiResponse<T>>(`${this.base}${path}`, body)
+      .pipe(map((r) => r.data));
   }
 
   download(path: string): Observable<Blob> {

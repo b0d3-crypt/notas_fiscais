@@ -6,6 +6,7 @@ export interface AuthUser {
   token: string;
   nmPessoa: string;
   cdPessoa: number;
+  cdWebUser: number;
   role: number;
 }
 
@@ -15,7 +16,7 @@ const STORAGE_KEY = 'auth_user';
 export class AuthService {
   readonly isAuthenticated$ = new BehaviorSubject<boolean>(this.hasToken());
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   setUser(user: AuthUser): void {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
@@ -33,6 +34,10 @@ export class AuthService {
 
   getCdPessoa(): number | null {
     return this.getUser()?.cdPessoa ?? null;
+  }
+
+  getCdWebUser(): number | null {
+    return this.getUser()?.cdWebUser ?? null;
   }
 
   getRole(): number | null {

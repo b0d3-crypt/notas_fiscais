@@ -245,6 +245,133 @@ tr.mat-row:hover {
 }
 
 // =====================================================================
+// MATERIAL DARK MODE — overrides globais (app sempre em dark mode)
+// =====================================================================
+.dark {
+
+  // --- Form field label ---
+  .mat-form-field-label,
+  .mat-form-field-empty.mat-form-field-should-float .mat-form-field-label {
+    color: #9eacbf !important; // dark-text
+  }
+
+  // --- Outline border ---
+  .mat-form-field-appearance-outline .mat-form-field-outline,
+  .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+    color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: #ffb902 !important;
+  }
+
+  .mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
+    color: #ffb902 !important;
+  }
+
+  // --- Input / textarea text ---
+  .mat-input-element {
+    color: #ffffff !important;
+    caret-color: #ffb902 !important;
+  }
+
+  // --- Select ---
+  .mat-select-value,
+  .mat-select-value-text {
+    color: #ffffff !important;
+  }
+
+  .mat-select-arrow {
+    color: #9eacbf !important;
+  }
+
+  .mat-select-panel {
+    background: #1e293b !important;
+
+    .mat-option {
+      color: #ffffff !important;
+      background: #1e293b !important;
+
+      &:hover:not(.mat-option-disabled),
+      &.mat-active {
+        background: #334155 !important;
+      }
+
+      &.mat-selected:not(.mat-option-multiple) {
+        background: rgba(255, 185, 2, 0.15) !important;
+      }
+    }
+  }
+
+  // --- Errors ---
+  .mat-error {
+    color: #f87171 !important;
+  }
+
+  // --- Suffix icons ---
+  .mat-form-field-suffix .mat-icon-button,
+  .mat-form-field-suffix mat-icon {
+    color: #9eacbf !important;
+  }
+
+  // --- Tabs ---
+  .mat-tab-label {
+    color: #9eacbf !important;
+    opacity: 1 !important;
+  }
+
+  .mat-tab-label-active {
+    color: #ffb902 !important;
+  }
+
+  .mat-ink-bar {
+    background-color: #ffb902 !important;
+  }
+
+  .mat-tab-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .mat-tab-body-wrapper {
+    background: transparent !important;
+  }
+
+  // --- Spinner ---
+  .mat-progress-spinner circle,
+  .mat-spinner circle {
+    stroke: #ffb902 !important;
+  }
+
+  // --- Menu (dropdown do usuário na navbar) ---
+  .mat-menu-panel {
+    background: #1e293b !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5) !important;
+
+    .mat-menu-item {
+      color: #9eacbf !important;
+      background: transparent !important;
+
+      .mat-icon {
+        color: #9eacbf !important;
+      }
+
+      &:hover:not([disabled]) {
+        background: #334155 !important;
+        color: #ffffff !important;
+
+        .mat-icon {
+          color: #ffb902 !important;
+        }
+      }
+    }
+
+    .mat-divider {
+      border-top-color: rgba(255, 255, 255, 0.08) !important;
+    }
+  }
+}
+
+// =====================================================================
 // BUTTONS — Material overrides
 // =====================================================================
 .btn-primary-yellow {

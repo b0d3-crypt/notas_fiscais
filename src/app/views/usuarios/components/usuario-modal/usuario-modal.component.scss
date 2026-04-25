@@ -1,0 +1,84 @@
+.modal-wrap {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  overflow: hidden;
+  background: #1e293b;
+  border-radius: 8px;
+}
+
+.modal-toolbar {
+  border-radius: 8px 8px 0 0 !important;
+  @apply bg-[#f0f1f5] dark:bg-dark-body text-accent dark:text-white;
+  min-height: 52px !important;
+  height: 52px !important;
+  padding: 0 1rem !important;
+}
+
+.modal-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.modal-body {
+  padding: 1.25rem 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  background: #1e293b;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: #1e293b;
+}
+
+.form-grid {
+  padding-top: 8px;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 16px 0 8px;
+  color: #ffb902;
+}
+
+.full-width {
+  width: 100%;
+  display: block;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tab-content {
+  padding-top: 4px;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 0 !important;
+  background: transparent !important;
+}
