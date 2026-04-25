@@ -1,52 +1,52 @@
 <div class="modal-wrap">
 
-  <!-- Header -->
-  <mat-toolbar class="modal-toolbar">
-    <mat-icon class="mr-2 text-primary">manage_accounts</mat-icon>
-    <span class="modal-title">{{ isCreate ? 'Novo Usuário' : 'Editar Usuário' }}</span>
-    <span class="flex-1"></span>
-    <button mat-icon-button type="button" (click)="close()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-toolbar>
+    <!-- Header -->
+    <mat-toolbar class="modal-toolbar">
+        <mat-icon class="mr-2 text-primary">manage_accounts</mat-icon>
+        <span class="modal-title">{{ isCreate ? 'Novo Usuário' : 'Editar Usuário' }}</span>
+        <span class="flex-1"></span>
+        <button mat-icon-button type="button" (click)="close()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-toolbar>
 
-  <!-- Loading -->
-  <div *ngIf="loading" class="flex justify-center py-8">
-    <mat-spinner diameter="32"></mat-spinner>
-  </div>
-
-  <!-- Body -->
-  <div *ngIf="!loading" class="modal-body">
-    <!-- Tabs só aparecem no modo edição -->
-    <mat-tab-group *ngIf="isEdit" [(selectedIndex)]="activeTab">
-      <mat-tab label="Dados Gerais">
-        <div class="tab-content">
-          <ng-container *ngTemplateOutlet="dadosGeraisForm"></ng-container>
-        </div>
-      </mat-tab>
-      <mat-tab label="Alterar Senha">
-        <div class="tab-content">
-          <ng-container *ngTemplateOutlet="senhaForm"></ng-container>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-
-    <!-- Modo criação: tudo em um único form -->
-    <div *ngIf="isCreate">
-      <ng-container *ngTemplateOutlet="dadosGeraisForm"></ng-container>
-      <h4 class="section-title">Senha</h4>
-      <ng-container *ngTemplateOutlet="senhaForm"></ng-container>
+    <!-- Loading -->
+    <div *ngIf="loading" class="flex justify-center py-8">
+        <mat-spinner diameter="32"></mat-spinner>
     </div>
-  </div>
 
-  <!-- Footer -->
-  <div class="modal-footer">
-    <app-button color="basic" size="small" (click)="close()">Cancelar</app-button>
-    <app-button color="default" size="small" (click)="save()" [disabled]="saving">
-      <mat-spinner *ngIf="saving" diameter="16" class="inline-block mr-1"></mat-spinner>
-      {{ saving ? 'Salvando...' : 'Salvar' }}
-    </app-button>
-  </div>
+    <!-- Body -->
+    <div *ngIf="!loading" class="modal-body">
+        <!-- Tabs só aparecem no modo edição -->
+        <mat-tab-group *ngIf="isEdit" [(selectedIndex)]="activeTab">
+            <mat-tab label="Dados Gerais">
+                <div class="tab-content">
+                    <ng-container *ngTemplateOutlet="dadosGeraisForm"></ng-container>
+                </div>
+            </mat-tab>
+            <mat-tab label="Alterar Senha">
+                <div class="tab-content">
+                    <ng-container *ngTemplateOutlet="senhaForm"></ng-container>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+
+        <!-- Modo criação: tudo em um único form -->
+        <div *ngIf="isCreate">
+            <ng-container *ngTemplateOutlet="dadosGeraisForm"></ng-container>
+            <h4 class="section-title">Senha</h4>
+            <ng-container *ngTemplateOutlet="senhaForm"></ng-container>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+        <app-button color="basic" size="small" (click)="close()">Cancelar</app-button>
+        <app-button color="default" size="small" (click)="save()" [disabled]="saving">
+            <mat-spinner *ngIf="saving" diameter="16" class="inline-block mr-1"></mat-spinner>
+            {{ saving ? 'Salvando...' : 'Salvar' }}
+        </app-button>
+    </div>
 
 </div>
 
@@ -99,8 +99,8 @@
         <div class="two-col">
             <mat-form-field appearance="outline">
                 <mat-label>CEP</mat-label>
-                <input matInput formControlName="nrCep" maxlength="9" autocomplete="off"
-                    cepMask (blur)="buscarCep()" placeholder="00000-000" />
+                <input matInput formControlName="nrCep" maxlength="9" autocomplete="off" cepMask (blur)="buscarCep()"
+                    placeholder="00000-000" />
             </mat-form-field>
 
             <mat-form-field appearance="outline">

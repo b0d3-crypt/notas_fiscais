@@ -8,7 +8,8 @@
 // =====================================================================
 // BASE
 // =====================================================================
-html, body {
+html,
+body {
   @apply h-full;
 }
 
@@ -17,13 +18,15 @@ body {
   @apply text-text dark:text-dark-text bg-body dark:bg-dark-body font-nunito;
 }
 
-h1, h2 {
+h1,
+h2 {
   @apply text-accent dark:text-white mb-2;
 }
 
 ::-webkit-scrollbar {
   @apply w-[.4rem] h-[.4rem] rounded bg-[#BDBDBD] dark:bg-[#4C545F];
 }
+
 ::-webkit-scrollbar-thumb {
   @apply rounded bg-[#434343] dark:bg-[#1F2937];
 }
@@ -76,6 +79,7 @@ h1, h2 {
   @media (min-width: 1024px) {
     border-radius: 0 8px 8px 0;
   }
+
   @media (max-width: 1023px) {
     border-radius: 0;
     padding: 2rem 1.5rem;

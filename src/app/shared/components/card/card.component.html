@@ -1,9 +1,9 @@
 <div class="card">
-  <div class="card-content">
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="subtitle m-0">{{ titulo }}</h3>
-      <ng-content select="[card-button]"></ng-content>
+    <div class="card-content">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="subtitle m-0">{{ titulo }}</h3>
+            <ng-content select="[card-button]"></ng-content>
+        </div>
+        <ng-content></ng-content>
     </div>
-    <ng-content></ng-content>
-  </div>
 </div>

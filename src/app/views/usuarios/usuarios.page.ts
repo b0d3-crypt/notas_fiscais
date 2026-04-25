@@ -54,8 +54,8 @@ export class UsuariosPageComponent implements OnInit {
         });
     }
 
-  tipoLabel(tipo: number): string {
-    return tipo === 0 ? 'Admin' : 'Usuário';
-  }
+    tipoLabel(tipo: number): string {
+        return tipo === 0 ? 'Admin' : 'Usuário';
+    }
 }
 

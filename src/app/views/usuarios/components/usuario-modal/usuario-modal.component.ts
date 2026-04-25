@@ -7,8 +7,8 @@ import {
     UpdateUsuarioRequest,
     UsuarioService,
 } from '../../../../services/usuario.service';
-import { SnackbarService } from '../../../../shared/snackbar.service';
 import { CepService } from '../../../../shared/services/cep.service';
+import { SnackbarService } from '../../../../shared/snackbar.service';
 
 export interface UsuarioModalData {
     mode: 'create' | 'edit';

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/auth/auth.service';
 import { UsuarioService } from '../../services/usuario.service';
-import { SnackbarService } from '../../shared/snackbar.service';
 import { CepService } from '../../shared/services/cep.service';
+import { SnackbarService } from '../../shared/snackbar.service';
 
 function senhasConferem(group: FormGroup) {
     const p = group.get('password')?.value;

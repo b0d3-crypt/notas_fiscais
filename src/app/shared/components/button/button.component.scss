@@ -1,22 +1,39 @@
 :host {
-  @apply inline-block;
+    @apply inline-block;
 
-  .btn {
-    @apply w-full inline-flex text-sm lg:text-base px-4 md:px-8 rounded-full font-medium font-nunito
-           justify-center items-center gap-x-2 cursor-pointer transition-colors duration-300 border-0
-           outline-none select-none;
+    .btn {
+        @apply w-full inline-flex text-sm lg:text-base px-4 md:px-8 rounded-full font-medium font-nunito justify-center items-center gap-x-2 cursor-pointer transition-colors duration-300 border-0 outline-none select-none;
 
-    &:disabled {
-      @apply opacity-50 cursor-not-allowed;
+        &:disabled {
+            @apply opacity-50 cursor-not-allowed;
+        }
     }
-  }
 
-  &.btn-accent .btn   { @apply bg-accent text-white dark:bg-primary; }
-  &.btn-primary .btn  { @apply bg-primary hover:bg-zinc-700 text-white; }
-  &.btn-default .btn  { @apply bg-transparent text-primary border-2 font-semibold border-primary hover:bg-primary hover:text-accent; }
-  &.btn-basic .btn    { @apply bg-white text-accent font-semibold dark:bg-dark-body dark:text-white; }
-  &.btn-warn .btn     { @apply bg-warn text-black hover:bg-yellow-500; }
+    &.btn-accent .btn {
+        @apply bg-accent text-white dark:bg-primary;
+    }
 
-  &.btn-small .btn  { @apply h-10; }
-  &.btn-normal .btn { @apply h-12; }
+    &.btn-primary .btn {
+        @apply bg-primary hover:bg-zinc-700 text-white;
+    }
+
+    &.btn-default .btn {
+        @apply bg-transparent text-primary border-2 font-semibold border-primary hover:bg-primary hover:text-accent;
+    }
+
+    &.btn-basic .btn {
+        @apply bg-white text-accent font-semibold dark:bg-dark-body dark:text-white;
+    }
+
+    &.btn-warn .btn {
+        @apply bg-warn text-black hover:bg-yellow-500;
+    }
+
+    &.btn-small .btn {
+        @apply h-10;
+    }
+
+    &.btn-normal .btn {
+        @apply h-12;
+    }
 }

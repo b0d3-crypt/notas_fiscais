@@ -1,77 +1,77 @@
 <app-card [titulo]="'Lista de Usuários'">
 
-  <app-button card-button size="small" color="default" (click)="openCreate()">
-    <mat-icon>person_add</mat-icon>
-    Novo Usuário
-  </app-button>
+    <app-button card-button size="small" color="default" (click)="openCreate()">
+        <mat-icon>person_add</mat-icon>
+        Novo Usuário
+    </app-button>
 
-  <div *ngIf="loading" class="flex justify-center py-8">
-    <mat-spinner diameter="40"></mat-spinner>
-  </div>
-
-  <!-- Desktop View: Tabela -->
-  <div *ngIf="!loading" class="hidden 2xl:block overflow-x-auto">
-    <table mat-table [dataSource]="dataSource" class="w-full">
-
-      <ng-container matColumnDef="nmPessoa">
-        <th mat-header-cell *matHeaderCellDef>NOME</th>
-        <td mat-cell *matCellDef="let element">{{ element.nmPessoa }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="nrCpf">
-        <th mat-header-cell *matHeaderCellDef>CPF</th>
-        <td mat-cell *matCellDef="let element">{{ element.nrCpf }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="nmEmail">
-        <th mat-header-cell *matHeaderCellDef>EMAIL</th>
-        <td mat-cell *matCellDef="let element">{{ element.nmEmail }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="tpResponsabilidade">
-        <th mat-header-cell *matHeaderCellDef>PERFIL</th>
-        <td mat-cell *matCellDef="let element">{{ tipoLabel(element.tpResponsabilidade) }}</td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row (click)="openEdit(row)" *matRowDef="let row; columns: displayedColumns"
-        class="hover:bg-gray-800 transition duration-200 cursor-pointer"></tr>
-    </table>
-
-    <div *ngIf="dataSource.length === 0" class="flex flex-col items-center py-8 text-text dark:text-dark-text">
-      <mat-icon class="text-4xl opacity-40">people_outline</mat-icon>
-      <p class="mt-2">Nenhum usuário cadastrado</p>
-    </div>
-  </div>
-
-  <!-- Mobile View: Cards -->
-  <div *ngIf="!loading" class="2xl:hidden">
-    <div *ngFor="let element of dataSource" (click)="openEdit(element)"
-      class="bg-white dark:bg-dark-white border border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-200">
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <p class="text-text dark:text-dark-text text-sm">NOME</p>
-          <p class="text-accent dark:text-white font-medium">{{ element.nmPessoa }}</p>
-        </div>
-        <div>
-          <p class="text-text dark:text-dark-text text-sm">PERFIL</p>
-          <p class="text-accent dark:text-white font-medium">{{ tipoLabel(element.tpResponsabilidade) }}</p>
-        </div>
-        <div class="col-span-2">
-          <p class="text-text dark:text-dark-text text-sm">CPF</p>
-          <p class="text-accent dark:text-white font-medium">{{ element.nrCpf }}</p>
-        </div>
-        <div class="col-span-2">
-          <p class="text-text dark:text-dark-text text-sm">EMAIL</p>
-          <p class="text-accent dark:text-white font-medium">{{ element.nmEmail }}</p>
-        </div>
-      </div>
+    <div *ngIf="loading" class="flex justify-center py-8">
+        <mat-spinner diameter="40"></mat-spinner>
     </div>
 
-    <div *ngIf="dataSource.length === 0" class="flex flex-col items-center py-8 text-text dark:text-dark-text">
-      <mat-icon class="text-4xl opacity-40">people_outline</mat-icon>
-      <p class="mt-2">Nenhum usuário cadastrado</p>
+    <!-- Desktop View: Tabela -->
+    <div *ngIf="!loading" class="hidden 2xl:block overflow-x-auto">
+        <table mat-table [dataSource]="dataSource" class="w-full">
+
+            <ng-container matColumnDef="nmPessoa">
+                <th mat-header-cell *matHeaderCellDef>NOME</th>
+                <td mat-cell *matCellDef="let element">{{ element.nmPessoa }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="nrCpf">
+                <th mat-header-cell *matHeaderCellDef>CPF</th>
+                <td mat-cell *matCellDef="let element">{{ element.nrCpf }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="nmEmail">
+                <th mat-header-cell *matHeaderCellDef>EMAIL</th>
+                <td mat-cell *matCellDef="let element">{{ element.nmEmail }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="tpResponsabilidade">
+                <th mat-header-cell *matHeaderCellDef>PERFIL</th>
+                <td mat-cell *matCellDef="let element">{{ tipoLabel(element.tpResponsabilidade) }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row (click)="openEdit(row)" *matRowDef="let row; columns: displayedColumns"
+                class="hover:bg-gray-800 transition duration-200 cursor-pointer"></tr>
+        </table>
+
+        <div *ngIf="dataSource.length === 0" class="flex flex-col items-center py-8 text-text dark:text-dark-text">
+            <mat-icon class="text-4xl opacity-40">people_outline</mat-icon>
+            <p class="mt-2">Nenhum usuário cadastrado</p>
+        </div>
     </div>
-  </div>
+
+    <!-- Mobile View: Cards -->
+    <div *ngIf="!loading" class="2xl:hidden">
+        <div *ngFor="let element of dataSource" (click)="openEdit(element)"
+            class="bg-white dark:bg-dark-white border border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-200">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <p class="text-text dark:text-dark-text text-sm">NOME</p>
+                    <p class="text-accent dark:text-white font-medium">{{ element.nmPessoa }}</p>
+                </div>
+                <div>
+                    <p class="text-text dark:text-dark-text text-sm">PERFIL</p>
+                    <p class="text-accent dark:text-white font-medium">{{ tipoLabel(element.tpResponsabilidade) }}</p>
+                </div>
+                <div class="col-span-2">
+                    <p class="text-text dark:text-dark-text text-sm">CPF</p>
+                    <p class="text-accent dark:text-white font-medium">{{ element.nrCpf }}</p>
+                </div>
+                <div class="col-span-2">
+                    <p class="text-text dark:text-dark-text text-sm">EMAIL</p>
+                    <p class="text-accent dark:text-white font-medium">{{ element.nmEmail }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="dataSource.length === 0" class="flex flex-col items-center py-8 text-text dark:text-dark-text">
+            <mat-icon class="text-4xl opacity-40">people_outline</mat-icon>
+            <p class="mt-2">Nenhum usuário cadastrado</p>
+        </div>
+    </div>
 
 </app-card>
