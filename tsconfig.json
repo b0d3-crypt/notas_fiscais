@@ -18,9 +18,14 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": ["ES2022", "dom"],
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
     "paths": {
-      "@env/*": ["src/environments/*"]
+      "@env/*": [
+        "src/environments/*"
+      ]
     }
   },
   "angularCompilerOptions": {
@@ -28,5 +33,10 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "references": [
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }
