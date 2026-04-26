@@ -76,6 +76,18 @@
   @apply text-accent dark:text-white;
 }
 
+.file-link {
+  cursor: pointer;
+  color: #ffb902;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
 .tipo-chip {
   display: inline-block;
   font-size: 0.65rem;

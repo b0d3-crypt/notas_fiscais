@@ -30,7 +30,7 @@
       <div class="field-row" *ngIf="detail">
         <span class="field-label">Arquivo</span>
         <span class="field-value">
-          {{ detail.nmArquivo }}
+          <a class="file-link" (click)="viewFile()" title="Abrir arquivo">{{ detail.nmArquivo }}</a>
           <span class="tipo-chip">{{ tipoArquivo[detail.tpArquivo]?.label ?? '' }}</span>
         </span>
       </div>

@@ -175,6 +175,18 @@ export class DespesaModalComponent implements OnInit {
     return fd;
   }
 
+  viewFile(): void {
+    if (!this.detail) return;
+    this.despesaService.download(this.detail.cdDescricaoDespesa).subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        setTimeout(() => URL.revokeObjectURL(url), 60_000);
+      },
+      error: () => this.snackbar.error('Erro ao abrir arquivo'),
+    });
+  }
+
   close(): void {
     this.dialogRef.close(false);
   }
