@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ApiService } from '../../shared/api.service';
-import { AuthService } from '../../core/auth/auth.service';
-import { SnackbarService } from '../../shared/snackbar.service';
 import { TIPO_ARQUIVO } from '../../constants/tipo-arquivo';
+import { AuthService } from '../../core/auth/auth.service';
+import { ApiService } from '../../shared/api.service';
+import { SnackbarService } from '../../shared/snackbar.service';
 import { DespesaModalComponent, DespesaModalData } from './components/despesa-modal/despesa-modal.component';
 
 export interface DespesaListItem {
@@ -47,7 +47,7 @@ export class DespesasPageComponent implements OnInit {
     public authService: AuthService,
     private snackbar: SnackbarService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadDespesas();

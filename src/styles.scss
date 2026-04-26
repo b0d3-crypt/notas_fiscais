@@ -181,13 +181,43 @@ tr.mat-row:hover {
 // =====================================================================
 .mat-snack-bar-container {
   &.alert {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 500;
     font-size: 0.875rem;
     border-radius: 8px !important;
+
+    .mat-simple-snackbar {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      width: 100%;
+    }
+
+    .mat-simple-snack-bar-content {
+      flex: 1;
+    }
+
+    .mat-simple-snackbar-action {
+      margin-left: auto;
+      flex-shrink: 0;
+
+      .mat-button.mat-button-base {
+        min-width: 0 !important;
+        width: 28px !important;
+        height: 28px !important;
+        line-height: 28px !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        font-size: 1rem !important;
+        font-weight: 700 !important;
+        color: #ffffff !important;
+        background: rgba(0, 0, 0, 0.25) !important;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.45) !important;
+        }
+      }
+    }
   }
 
   &.alert-error {

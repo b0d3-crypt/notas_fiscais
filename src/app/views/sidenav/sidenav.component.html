@@ -14,6 +14,7 @@
             <span>Comprovantes</span>
           </a>
         </li>
+
       </ul>
     </div>
   </section>
@@ -31,11 +32,11 @@
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <mat-menu #userMenu="matMenu">
-          <button mat-menu-item routerLink="/principal/perfil">
+          <button mat-menu-item (click)="openMeuPerfil()">
             <mat-icon>person</mat-icon>
-            <span>Meu Perfil</span>
+            <span>Minhas Informações</span>
           </button>
-          <button mat-menu-item routerLink="/principal/usuarios" *ngIf="isAdmin">
+          <button mat-menu-item (click)="navigateUsuarios()" *ngIf="isAdmin">
             <mat-icon>people</mat-icon>
             <span>Usuários</span>
           </button>

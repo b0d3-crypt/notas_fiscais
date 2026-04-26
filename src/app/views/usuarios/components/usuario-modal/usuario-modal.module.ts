@@ -8,34 +8,29 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterModule, Routes } from '@angular/router';
-import { SharedModule } from '../../shared/shared.module';
-import { UsuariosPageComponent } from './usuarios.page';
-
-const routes: Routes = [{ path: '', component: UsuariosPageComponent }];
+import { SharedModule } from '../../../../shared/shared.module';
+import { UsuarioModalComponent } from './usuario-modal.component';
 
 @NgModule({
-    declarations: [UsuariosPageComponent],
+    declarations: [UsuarioModalComponent],
     imports: [
         CommonModule,
-        RouterModule.forChild(routes),
         ReactiveFormsModule,
         SharedModule,
-        MatTableModule,
+        MatDialogModule,
         MatButtonModule,
         MatIconModule,
-        MatDialogModule,
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
         MatProgressSpinnerModule,
         MatTabsModule,
-        MatTooltipModule,
         MatToolbarModule,
+        MatTooltipModule,
     ],
+    exports: [UsuarioModalComponent],
 })
-export class UsuariosModule { }
+export class UsuarioModalModule { }
