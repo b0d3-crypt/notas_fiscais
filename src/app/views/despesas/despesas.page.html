@@ -25,47 +25,37 @@
           <!-- Pessoa -->
           <ng-container matColumnDef="nmPessoa">
             <th mat-header-cell *matHeaderCellDef>Pessoa</th>
-            <td mat-cell *matCellDef="let row">
-              <ng-container *ngIf="!row.isSeparator">{{ row.nmPessoa }}</ng-container>
-            </td>
+            <td mat-cell *matCellDef="let row">{{ row.nmPessoa }}</td>
           </ng-container>
 
           <!-- Arquivo -->
           <ng-container matColumnDef="nmArquivo">
             <th mat-header-cell *matHeaderCellDef>Arquivo</th>
             <td mat-cell *matCellDef="let row">
-              <ng-container *ngIf="!row.isSeparator">
-                {{ row.nmArquivo }}&nbsp;<span class="tipo-badge">{{ tipoArquivo[row.tpArquivo]?.label ?? '' }}</span>
-              </ng-container>
+              {{ row.nmArquivo }}&nbsp;<span class="tipo-badge">{{ tipoArquivo[row.tpArquivo]?.label ?? '' }}</span>
             </td>
           </ng-container>
 
           <!-- Data Despesa -->
           <ng-container matColumnDef="dtDespesa">
             <th mat-header-cell *matHeaderCellDef class="text-center">Data</th>
-            <td mat-cell *matCellDef="let row" class="text-center">
-              <ng-container *ngIf="!row.isSeparator">{{ row.dtDespesa }}</ng-container>
-            </td>
+            <td mat-cell *matCellDef="let row" class="text-center">{{ row.dtDespesa }}</td>
           </ng-container>
 
           <!-- Valor -->
           <ng-container matColumnDef="vlDespesa">
             <th mat-header-cell *matHeaderCellDef class="text-right">Valor</th>
-            <td mat-cell *matCellDef="let row" class="text-right font-semibold">
-              <ng-container *ngIf="!row.isSeparator">{{ formatCurrency(row.vlDespesa) }}</ng-container>
-            </td>
+            <td mat-cell *matCellDef="let row" class="text-right font-semibold">{{ formatCurrency(row.vlDespesa) }}</td>
           </ng-container>
 
           <!-- Download -->
           <ng-container matColumnDef="download">
             <th mat-header-cell *matHeaderCellDef class="text-center">Download</th>
             <td mat-cell *matCellDef="let row" class="text-center">
-              <ng-container *ngIf="!row.isSeparator">
-                <button mat-icon-button matTooltip="Baixar arquivo" class="btn-download-white"
-                  (click)="download($event, row)">
-                  <mat-icon>download</mat-icon>
-                </button>
-              </ng-container>
+              <button mat-icon-button matTooltip="Baixar arquivo" class="btn-download-white"
+                (click)="download($event, row)">
+                <mat-icon>download</mat-icon>
+              </button>
             </td>
           </ng-container>
 
@@ -73,25 +63,15 @@
           <ng-container matColumnDef="excluir">
             <th mat-header-cell *matHeaderCellDef class="text-center">Excluir</th>
             <td mat-cell *matCellDef="let row" class="text-center">
-              <ng-container *ngIf="!row.isSeparator && canEditOrDelete(row)">
-                <button mat-icon-button color="warn" matTooltip="Excluir" (click)="confirmDelete($event, row)">
-                  <mat-icon>delete_outline</mat-icon>
-                </button>
-              </ng-container>
-            </td>
-          </ng-container>
-
-          <!-- Coluna do separador de mês (ocupa todas) -->
-          <ng-container matColumnDef="monthSeparator">
-            <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
-              {{ row.monthLabel }}
+              <button *ngIf="canEditOrDelete(row)" mat-icon-button color="warn" matTooltip="Excluir"
+                (click)="confirmDelete($event, row)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
             </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['monthSeparator']; when: isSeparator"
-            class="month-separator-row"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns; when: isData" class="data-row"
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" class="data-row"
             (click)="openRowModal(row)"></tr>
 
         </table>
@@ -104,38 +84,28 @@
 
       <!-- Mobile View: Cards -->
       <div class="2xl:hidden">
-        <ng-container *ngFor="let row of tableData">
-
-          <!-- Separador de mês -->
-          <div *ngIf="row.isSeparator" class="month-sep-mobile">
-            {{ row.monthLabel }}
+        <div *ngFor="let row of tableData" class="despesa-card" (click)="openRowModal(row)">
+          <div class="despesa-card__header">
+            <span class="despesa-card__pessoa">{{ row.nmPessoa }}</span>
+            <span class="despesa-card__valor">{{ formatCurrency(row.vlDespesa) }}</span>
           </div>
-
-          <!-- Card de despesa -->
-          <div *ngIf="!row.isSeparator" class="despesa-card" (click)="openRowModal(row)">
-            <div class="despesa-card__header">
-              <span class="despesa-card__pessoa">{{ row.nmPessoa }}</span>
-              <span class="despesa-card__valor">{{ formatCurrency(row.vlDespesa) }}</span>
-            </div>
-            <div class="despesa-card__body">
-              <span class="despesa-card__arquivo">
-                {{ row.nmArquivo }}&nbsp;<span class="tipo-badge">{{ tipoArquivo[row.tpArquivo]?.label ?? '' }}</span>
-              </span>
-              <span class="despesa-card__data">{{ row.dtDespesa }}</span>
-            </div>
-            <div class="despesa-card__actions">
-              <button mat-icon-button matTooltip="Baixar arquivo" class="btn-download-white"
-                (click)="download($event, row)">
-                <mat-icon>download</mat-icon>
-              </button>
-              <button *ngIf="canEditOrDelete(row)" mat-icon-button color="warn" matTooltip="Excluir"
-                (click)="confirmDelete($event, row)">
-                <mat-icon>delete_outline</mat-icon>
-              </button>
-            </div>
+          <div class="despesa-card__body">
+            <span class="despesa-card__arquivo">
+              {{ row.nmArquivo }}&nbsp;<span class="tipo-badge">{{ tipoArquivo[row.tpArquivo]?.label ?? '' }}</span>
+            </span>
+            <span class="despesa-card__data">{{ row.dtDespesa }}</span>
           </div>
-
-        </ng-container>
+          <div class="despesa-card__actions">
+            <button mat-icon-button matTooltip="Baixar arquivo" class="btn-download-white"
+              (click)="download($event, row)">
+              <mat-icon>download</mat-icon>
+            </button>
+            <button *ngIf="canEditOrDelete(row)" mat-icon-button color="warn" matTooltip="Excluir"
+              (click)="confirmDelete($event, row)">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+        </div>
 
         <div *ngIf="tableData.length === 0" class="empty-state">
           <mat-icon>inbox</mat-icon>

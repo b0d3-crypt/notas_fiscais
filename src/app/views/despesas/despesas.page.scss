@@ -52,20 +52,6 @@
   text-align: center !important;
 }
 
-// Separador de mês — mobile cards
-.month-sep-mobile {
-  background-color: rgba(255, 185, 2, 0.12);
-  color: #ffb902;
-  font-family: 'Nunito Sans', sans-serif;
-  font-weight: 700;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 0.35rem 1rem;
-  border-left: 3px solid #ffb902;
-  margin-bottom: 0.5rem;
-}
-
 // Card mobile
 .despesa-card {
   @apply bg-white dark:bg-dark-white border border-gray-200 dark:border-gray-700 rounded-lg mb-3;

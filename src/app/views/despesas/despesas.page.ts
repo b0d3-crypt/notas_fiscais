@@ -15,16 +15,7 @@ export interface DespesaListItem {
   dtDespesa: string;
   vlDespesa: number;
   cdArquivo: number;
-  isSeparator?: false;
-  monthLabel?: undefined;
 }
-
-interface SeparatorRow {
-  isSeparator: true;
-  monthLabel: string;
-}
-
-type TableRow = DespesaListItem | SeparatorRow;
 
 @Component({
   selector: 'app-despesas-page',
@@ -32,15 +23,12 @@ type TableRow = DespesaListItem | SeparatorRow;
   styleUrls: ['./despesas.page.scss'],
 })
 export class DespesasPageComponent implements OnInit {
-  tableData: TableRow[] = [];
+  tableData: DespesaListItem[] = [];
   loading = false;
 
   displayedColumns = ['nmPessoa', 'nmArquivo', 'dtDespesa', 'vlDespesa', 'download', 'excluir'];
 
   tipoArquivo = TIPO_ARQUIVO;
-
-  readonly isSeparator = (_index: number, row: TableRow) => (row as SeparatorRow).isSeparator === true;
-  readonly isData = (_index: number, row: TableRow) => !(row as SeparatorRow).isSeparator;
 
   constructor(
     private api: ApiService,
@@ -57,7 +45,7 @@ export class DespesasPageComponent implements OnInit {
     this.loading = true;
     this.api.get<DespesaListItem[]>('/api/despesas').subscribe({
       next: (items) => {
-        this.tableData = this.buildTableRows(items);
+        this.tableData = items;
         this.loading = false;
       },
       error: () => {
@@ -65,32 +53,6 @@ export class DespesasPageComponent implements OnInit {
         this.loading = false;
       },
     });
-  }
-
-  private buildTableRows(items: DespesaListItem[]): TableRow[] {
-    const months = [
-      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
-    ];
-
-    const rows: TableRow[] = [];
-    let lastKey = '';
-
-    for (const item of items) {
-      // dtDespesa pode vir como "dd/MM/yyyy" ou "MM/yyyy"
-      const parts = item.dtDespesa.split('/');
-      const mm = parts.length === 3 ? parts[1] : parts[0];
-      const yyyy = parts.length === 3 ? parts[2] : parts[1];
-      const key = `${mm}/${yyyy}`;
-      if (key !== lastKey) {
-        const monthName = months[parseInt(mm, 10) - 1];
-        rows.push({ isSeparator: true, monthLabel: `${monthName} / ${yyyy}` });
-        lastKey = key;
-      }
-      rows.push(item);
-    }
-
-    return rows;
   }
 
   canEditOrDelete(item: DespesaListItem): boolean {
@@ -106,9 +68,7 @@ export class DespesasPageComponent implements OnInit {
     ref.afterClosed().subscribe((reload) => { if (reload) this.loadDespesas(); });
   }
 
-  openRowModal(row: TableRow): void {
-    if ((row as SeparatorRow).isSeparator) return;
-    const item = row as DespesaListItem;
+  openRowModal(item: DespesaListItem): void {
     const mode = this.canEditOrDelete(item) ? 'edit' : 'view';
     const ref = this.dialog.open(DespesaModalComponent, {
       width: '600px',
