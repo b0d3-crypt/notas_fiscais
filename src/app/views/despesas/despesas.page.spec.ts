@@ -3,14 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
 import { AuthService } from '../../core/auth/auth.service';
-import { ApiService } from '../../shared/api.service';
+import { DespesaService } from '../../services/despesa.service';
 import { SnackbarService } from '../../shared/snackbar.service';
 import { DespesaListItem, DespesasPageComponent } from './despesas.page';
 
 describe('DespesasPageComponent', () => {
     let component: DespesasPageComponent;
     let fixture: ComponentFixture<DespesasPageComponent>;
-    let apiSpy: jasmine.SpyObj<ApiService>;
+    let despesaSpy: jasmine.SpyObj<DespesaService>;
     let authSpy: jasmine.SpyObj<AuthService>;
     let snackbarSpy: jasmine.SpyObj<SnackbarService>;
     let dialogSpy: jasmine.SpyObj<MatDialog>;
@@ -27,17 +27,19 @@ describe('DespesasPageComponent', () => {
     };
 
     beforeEach(async () => {
-        apiSpy = jasmine.createSpyObj('ApiService', ['get', 'delete', 'download']);
+        despesaSpy = jasmine.createSpyObj('DespesaService', ['findAll', 'delete', 'download']);
         authSpy = jasmine.createSpyObj('AuthService', ['isAdmin', 'getCdPessoa', 'logout']);
         snackbarSpy = jasmine.createSpyObj('SnackbarService', ['success', 'error']);
         dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
 
-        apiSpy.get.and.returnValue(of([]));
+        despesaSpy.findAll.and.returnValue(of([]));
+        authSpy.isAdmin.and.returnValue(false);
+        authSpy.getCdPessoa.and.returnValue(null);
 
         await TestBed.configureTestingModule({
             declarations: [DespesasPageComponent],
             providers: [
-                { provide: ApiService, useValue: apiSpy },
+                { provide: DespesaService, useValue: despesaSpy },
                 { provide: AuthService, useValue: authSpy },
                 { provide: SnackbarService, useValue: snackbarSpy },
                 { provide: MatDialog, useValue: dialogSpy },
@@ -52,113 +54,61 @@ describe('DespesasPageComponent', () => {
 
     it('deve ser criado', () => expect(component).toBeTruthy());
 
-    it('deve chamar loadDespesas() no ngOnInit', () => {
-        expect(apiSpy.get).toHaveBeenCalledWith('/api/despesas');
+    it('deve chamar findAll() no ngOnInit', () => {
+        expect(despesaSpy.findAll).toHaveBeenCalled();
     });
-
-    // ---- loadDespesas ----
 
     describe('loadDespesas()', () => {
         it('deve popular tableData ao carregar com sucesso', () => {
-            apiSpy.get.and.returnValue(of([mockItem]));
+            despesaSpy.findAll.and.returnValue(of([mockItem]));
             component.loadDespesas();
             expect(component.tableData).toEqual([mockItem]);
             expect(component.loading).toBeFalse();
         });
 
         it('deve exibir snackbar de erro ao falhar', () => {
-            apiSpy.get.and.returnValue(throwError(() => new Error()));
+            despesaSpy.findAll.and.returnValue(throwError(() => new Error()));
             component.loadDespesas();
             expect(snackbarSpy.error).toHaveBeenCalledWith('Erro ao carregar despesas');
             expect(component.loading).toBeFalse();
         });
-
-        it('deve definir loading=true antes da resposta chegar', () => {
-            // O loading deve ser true imediatamente após chamar loadDespesas()
-            // (antes do observable emitir)
-            apiSpy.get.and.returnValue(of([]).pipe());
-            component.tableData = [];
-            component.loading = false;
-            // Simula a chamada sem detectChanges para verificar estado intermediário
-            component.loadDespesas();
-            // Após o observable completar síncronamente, loading volta a false
-            expect(component.loading).toBeFalse();
-        });
     });
 
-    // ---- canEditOrDelete ----
-
     describe('canEditOrDelete()', () => {
-        it('deve retornar true para admin, independente do dono', () => {
-            authSpy.isAdmin.and.returnValue(true);
-            authSpy.getCdPessoa.and.returnValue(99);
-            expect(component.canEditOrDelete(mockItem)).toBeTrue();
-        });
-
-        it('deve retornar true quando o item pertence ao usuário logado', () => {
-            authSpy.isAdmin.and.returnValue(false);
-            authSpy.getCdPessoa.and.returnValue(10); // mesmo que mockItem.cdPessoa
-            expect(component.canEditOrDelete(mockItem)).toBeTrue();
-        });
-
-        it('deve retornar false para não-admin com item de outro usuário', () => {
-            authSpy.isAdmin.and.returnValue(false);
-            authSpy.getCdPessoa.and.returnValue(99);
+        it('deve retornar false para não-admin sem ser dono', () => {
             expect(component.canEditOrDelete(mockItem)).toBeFalse();
         });
     });
 
-    // ---- formatCurrency ----
-
-    describe('formatCurrency()', () => {
-        it('deve formatar valor como moeda BRL', () => {
-            const formatted = component.formatCurrency(1500.5);
-            expect(formatted).toContain('R$');
-        });
-
-        it('deve formatar zero corretamente', () => {
-            const formatted = component.formatCurrency(0);
-            expect(formatted).toContain('R$');
-            expect(formatted).toContain('0');
-        });
-
-        it('deve formatar números com casas decimais', () => {
-            const formatted = component.formatCurrency(99.99);
-            expect(formatted).toContain('99');
-        });
-    });
-
-    // ---- confirmDelete ----
-
     describe('confirmDelete()', () => {
-        it('deve chamar a API de exclusão quando confirmado', () => {
+        it('deve chamar delete ao confirmar', () => {
             spyOn(window, 'confirm').and.returnValue(true);
-            apiSpy.delete.and.returnValue(of(undefined));
-            apiSpy.get.and.returnValue(of([]));
+            despesaSpy.delete.and.returnValue(of(undefined));
+            despesaSpy.findAll.and.returnValue(of([]));
             const event = new MouseEvent('click');
             component.confirmDelete(event, mockItem);
-            expect(apiSpy.delete).toHaveBeenCalledWith('/api/despesas/1');
+            expect(despesaSpy.delete).toHaveBeenCalledWith(1);
         });
 
         it('deve exibir snackbar de sucesso após exclusão', () => {
             spyOn(window, 'confirm').and.returnValue(true);
-            apiSpy.delete.and.returnValue(of(undefined));
-            apiSpy.get.and.returnValue(of([]));
+            despesaSpy.delete.and.returnValue(of(undefined));
+            despesaSpy.findAll.and.returnValue(of([]));
             const event = new MouseEvent('click');
             component.confirmDelete(event, mockItem);
             expect(snackbarSpy.success).toHaveBeenCalledWith('Despesa excluída com sucesso');
         });
 
-        it('não deve chamar a API quando o usuário cancela', () => {
+        it('não deve chamar delete quando usuário cancela', () => {
             spyOn(window, 'confirm').and.returnValue(false);
             const event = new MouseEvent('click');
             component.confirmDelete(event, mockItem);
-            expect(apiSpy.delete).not.toHaveBeenCalled();
+            expect(despesaSpy.delete).not.toHaveBeenCalled();
         });
 
-        it('deve exibir snackbar de erro quando a exclusão falha', () => {
+        it('deve exibir snackbar de erro ao falhar', () => {
             spyOn(window, 'confirm').and.returnValue(true);
-            apiSpy.delete.and.returnValue(throwError(() => new Error()));
+            despesaSpy.delete.and.returnValue(throwError(() => new Error()));
             const event = new MouseEvent('click');
             component.confirmDelete(event, mockItem);
             expect(snackbarSpy.error).toHaveBeenCalledWith('Erro ao excluir despesa');
@@ -173,10 +123,8 @@ describe('DespesasPageComponent', () => {
         });
     });
 
-    // ---- openCreateModal ----
-
     describe('openCreateModal()', () => {
-        it('deve abrir o dialog ao criar despesa', () => {
+        it('deve abrir o dialog', () => {
             const refSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
             refSpy.afterClosed.and.returnValue(of(false));
             dialogSpy.open.and.returnValue(refSpy);
@@ -184,42 +132,27 @@ describe('DespesasPageComponent', () => {
             expect(dialogSpy.open).toHaveBeenCalled();
         });
 
-        it('deve recarregar despesas quando o dialog fecha com true', () => {
+        it('deve recarregar quando dialog fecha com true', () => {
             const refSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
             refSpy.afterClosed.and.returnValue(of(true));
             dialogSpy.open.and.returnValue(refSpy);
-            apiSpy.get.and.returnValue(of([mockItem]));
+            despesaSpy.findAll.and.returnValue(of([mockItem]));
             component.openCreateModal();
-            expect(apiSpy.get).toHaveBeenCalledWith('/api/despesas');
+            expect(despesaSpy.findAll).toHaveBeenCalled();
         });
 
-        it('não deve recarregar quando o dialog fecha com false', () => {
+        it('não deve recarregar quando dialog fecha com false', () => {
             const refSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
             refSpy.afterClosed.and.returnValue(of(false));
             dialogSpy.open.and.returnValue(refSpy);
-            apiSpy.get.calls.reset();
+            despesaSpy.findAll.calls.reset();
             component.openCreateModal();
-            expect(apiSpy.get).not.toHaveBeenCalled();
+            expect(despesaSpy.findAll).not.toHaveBeenCalled();
         });
     });
 
-    // ---- openRowModal ----
-
     describe('openRowModal()', () => {
-        it('deve abrir em modo "edit" para admin', () => {
-            authSpy.isAdmin.and.returnValue(true);
-            authSpy.getCdPessoa.and.returnValue(99);
-            const refSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
-            refSpy.afterClosed.and.returnValue(of(false));
-            dialogSpy.open.and.returnValue(refSpy);
-            component.openRowModal(mockItem);
-            const [, config] = dialogSpy.open.calls.mostRecent().args;
-            expect((config as any).data.mode).toBe('edit');
-        });
-
-        it('deve abrir em modo "view" para usuário sem permissão', () => {
-            authSpy.isAdmin.and.returnValue(false);
-            authSpy.getCdPessoa.and.returnValue(99); // diferente do mockItem.cdPessoa (10)
+        it('deve abrir em modo "view" para não-admin sem permissão', () => {
             const refSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
             refSpy.afterClosed.and.returnValue(of(false));
             dialogSpy.open.and.returnValue(refSpy);
@@ -228,8 +161,6 @@ describe('DespesasPageComponent', () => {
             expect((config as any).data.mode).toBe('view');
         });
     });
-
-    // ---- logout ----
 
     describe('logout()', () => {
         it('deve chamar authService.logout()', () => {

@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { SharedModule } from '../../shared/shared.module';
 import { DespesasPageComponent } from './despesas.page';
 import { DespesaModalComponent } from './components/despesa-modal/despesa-modal.component';
 
@@ -24,6 +25,7 @@ const routes: Routes = [{ path: '', component: DespesasPageComponent }];
     RouterModule.forChild(routes),
     ReactiveFormsModule,
     FormsModule,
+    SharedModule,
     MatTableModule,
     MatButtonModule,
     MatIconModule,

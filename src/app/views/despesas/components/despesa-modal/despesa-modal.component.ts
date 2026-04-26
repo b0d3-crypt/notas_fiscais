@@ -1,26 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ApiService } from '../../../../shared/api.service';
+import { DespesaDetail, DespesaService } from '../../../../services/despesa.service';
 import { SnackbarService } from '../../../../shared/snackbar.service';
 import { TIPO_ARQUIVO } from '../../../../constants/tipo-arquivo';
 
 export interface DespesaModalData {
   mode: 'create' | 'edit' | 'view';
   id?: number;
-}
-
-interface DespesaDetail {
-  cdDescricaoDespesa: number;
-  nmPessoa: string;
-  cdPessoa: number;
-  nmArquivo: string;
-  tpArquivo: number;
-  dtDespesa: string;
-  vlDespesa: number;
-  cdArquivo: number;
-  dsDespesa: string;
-  dtArquivo: string;
 }
 
 const MAX_SIZE_BYTES = 2 * 1024 * 1024;
@@ -56,7 +43,7 @@ export class DespesaModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DespesaModalData,
     private dialogRef: MatDialogRef<DespesaModalComponent>,
     private fb: FormBuilder,
-    private api: ApiService,
+    private despesaService: DespesaService,
     private snackbar: SnackbarService
   ) {}
 
@@ -82,7 +69,7 @@ export class DespesaModalComponent implements OnInit {
 
   private loadDetail(): void {
     this.loading = true;
-    this.api.get<DespesaDetail>(`/api/despesas/${this.data.id}`).subscribe({
+    this.despesaService.getById(this.data.id!).subscribe({
       next: (detail) => {
         this.detail = detail;
         this.form.patchValue({
@@ -148,8 +135,8 @@ export class DespesaModalComponent implements OnInit {
     const formData = this.buildFormData();
 
     const request$ = this.isCreate
-      ? this.api.postForm<DespesaDetail>('/api/despesas', formData)
-      : this.api.putForm<DespesaDetail>(`/api/despesas/${this.data.id}`, formData);
+      ? this.despesaService.create(formData)
+      : this.despesaService.update(this.data.id!, formData);
 
     request$.subscribe({
       next: () => {

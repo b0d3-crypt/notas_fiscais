@@ -46,7 +46,7 @@
 
     <!-- Mobile View: Cards -->
     <div *ngIf="!loading" class="2xl:hidden">
-        <div *ngFor="let element of dataSource" (click)="openEdit(element)"
+        <div *ngFor="let element of dataSource; trackBy: trackByUsuarioId" (click)="openEdit(element)"
             class="bg-white dark:bg-dark-white border border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-200">
             <div class="grid grid-cols-2 gap-4">
                 <div>

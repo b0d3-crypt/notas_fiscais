@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../core/auth/auth.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { CepService } from '../../shared/services/cep.service';
@@ -16,7 +18,8 @@ function senhasConferem(group: FormGroup) {
     templateUrl: './perfil.page.html',
     styleUrls: ['./perfil.page.scss'],
 })
-export class PerfilPageComponent implements OnInit {
+export class PerfilPageComponent implements OnInit, OnDestroy {
+    private readonly destroy$ = new Subject<void>();
     dadosForm!: FormGroup;
     senhaForm!: FormGroup;
     loading = true;
@@ -59,7 +62,7 @@ export class PerfilPageComponent implements OnInit {
             { validators: senhasConferem }
         );
 
-        this.senhaForm.get('senhaAtual')!.valueChanges.subscribe((val: string) => {
+        this.senhaForm.get('senhaAtual')!.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: string) => {
             const hasValue = val && val.length > 0;
             const passwordCtrl = this.senhaForm.get('password')!;
             const confirmCtrl = this.senhaForm.get('confirmPassword')!;
@@ -121,6 +124,11 @@ export class PerfilPageComponent implements OnInit {
                 this.saving = false;
             },
         });
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     saveSenha(): void {

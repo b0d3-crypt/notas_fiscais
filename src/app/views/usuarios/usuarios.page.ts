@@ -57,5 +57,9 @@ export class UsuariosPageComponent implements OnInit {
     tipoLabel(tipo: number): string {
         return tipo === 0 ? 'Admin' : 'Usuário';
     }
+
+    trackByUsuarioId(_: number, item: UsuarioListItem): number {
+        return item.cdWebUser;
+    }
 }
 

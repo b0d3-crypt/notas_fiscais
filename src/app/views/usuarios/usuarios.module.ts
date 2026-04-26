@@ -14,6 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
+import { UsuarioModalModule } from './components/usuario-modal/usuario-modal.module';
 import { UsuariosPageComponent } from './usuarios.page';
 
 const routes: Routes = [{ path: '', component: UsuariosPageComponent }];
@@ -25,6 +26,7 @@ const routes: Routes = [{ path: '', component: UsuariosPageComponent }];
         RouterModule.forChild(routes),
         ReactiveFormsModule,
         SharedModule,
+        UsuarioModalModule,
         MatTableModule,
         MatButtonModule,
         MatIconModule,

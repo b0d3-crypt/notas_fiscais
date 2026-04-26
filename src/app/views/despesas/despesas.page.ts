@@ -1,28 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TIPO_ARQUIVO } from '../../constants/tipo-arquivo';
 import { AuthService } from '../../core/auth/auth.service';
-import { ApiService } from '../../shared/api.service';
+import { DespesaListItem, DespesaService } from '../../services/despesa.service';
 import { SnackbarService } from '../../shared/snackbar.service';
 import { DespesaModalComponent, DespesaModalData } from './components/despesa-modal/despesa-modal.component';
 
-export interface DespesaListItem {
-  cdDescricaoDespesa: number;
-  nmPessoa: string;
-  cdPessoa: number;
-  nmArquivo: string;
-  tpArquivo: number;
-  dtDespesa: string;
-  vlDespesa: number;
-  cdArquivo: number;
-}
+export { DespesaListItem };
 
 @Component({
   selector: 'app-despesas-page',
   templateUrl: './despesas.page.html',
   styleUrls: ['./despesas.page.scss'],
 })
-export class DespesasPageComponent implements OnInit {
+export class DespesasPageComponent implements OnInit, OnDestroy {
   tableData: DespesaListItem[] = [];
   loading = false;
 
@@ -30,20 +21,28 @@ export class DespesasPageComponent implements OnInit {
 
   tipoArquivo = TIPO_ARQUIVO;
 
+  private readonly isAdminUser: boolean;
+  private readonly cdPessoa: number | null;
+
   constructor(
-    private api: ApiService,
-    public authService: AuthService,
+    private despesaService: DespesaService,
+    private authService: AuthService,
     private snackbar: SnackbarService,
     private dialog: MatDialog
-  ) { }
+  ) {
+    this.isAdminUser = this.authService.isAdmin();
+    this.cdPessoa = this.authService.getCdPessoa();
+  }
 
   ngOnInit(): void {
     this.loadDespesas();
   }
 
+  ngOnDestroy(): void { /* lifecycle hook */ }
+
   loadDespesas(): void {
     this.loading = true;
-    this.api.get<DespesaListItem[]>('/api/despesas').subscribe({
+    this.despesaService.findAll().subscribe({
       next: (items) => {
         this.tableData = items;
         this.loading = false;
@@ -56,7 +55,11 @@ export class DespesasPageComponent implements OnInit {
   }
 
   canEditOrDelete(item: DespesaListItem): boolean {
-    return this.authService.isAdmin() || item.cdPessoa === this.authService.getCdPessoa();
+    return this.isAdminUser || item.cdPessoa === this.cdPessoa;
+  }
+
+  trackByDespesaId(_: number, item: DespesaListItem): number {
+    return item.cdDescricaoDespesa;
   }
 
   openCreateModal(): void {
@@ -80,7 +83,7 @@ export class DespesasPageComponent implements OnInit {
 
   download(event: Event, item: DespesaListItem): void {
     event.stopPropagation();
-    this.api.download(`/api/despesas/${item.cdDescricaoDespesa}/download`).subscribe({
+    this.despesaService.download(item.cdDescricaoDespesa).subscribe({
       next: (blob) => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -97,17 +100,13 @@ export class DespesasPageComponent implements OnInit {
     event.stopPropagation();
     if (!confirm(`Excluir despesa de ${item.nmPessoa} (${item.dtDespesa})?`)) return;
 
-    this.api.delete(`/api/despesas/${item.cdDescricaoDespesa}`).subscribe({
+    this.despesaService.delete(item.cdDescricaoDespesa).subscribe({
       next: () => {
         this.snackbar.success('Despesa excluída com sucesso');
         this.loadDespesas();
       },
       error: () => this.snackbar.error('Erro ao excluir despesa'),
     });
-  }
-
-  formatCurrency(value: number): string {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
   }
 
   logout(): void {

@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
-import { UsuarioModalComponent, UsuarioModalData } from '../usuarios/components/usuario-modal/usuario-modal.component';
 
 @Component({
   selector: 'sidenav',
@@ -13,7 +11,6 @@ export class SidenavComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private dialog: MatDialog,
   ) { }
 
   get userName(): string {
@@ -29,10 +26,7 @@ export class SidenavComponent {
   }
 
   openMeuPerfil(): void {
-    const cdWebUser = this.authService.getCdWebUser();
-    if (!cdWebUser) return;
-    const data: UsuarioModalData = { mode: 'edit', cdWebUser };
-    this.dialog.open(UsuarioModalComponent, { data, width: '800px', maxWidth: '95vw' });
+    this.router.navigate(['/principal/perfil']);
   }
 
   navigateUsuarios(): void {

@@ -1,6 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import {
     CreateUsuarioRequest,
     UpdateSenhaRequest,
@@ -26,7 +28,8 @@ const senhasConferemValidator: ValidatorFn = (group: AbstractControl): Validatio
     templateUrl: './usuario-modal.component.html',
     styleUrls: ['./usuario-modal.component.scss'],
 })
-export class UsuarioModalComponent implements OnInit {
+export class UsuarioModalComponent implements OnInit, OnDestroy {
+    private readonly destroy$ = new Subject<void>();
     dadosForm!: FormGroup;
     senhaFormGroup!: FormGroup;
 
@@ -85,7 +88,7 @@ export class UsuarioModalComponent implements OnInit {
         );
 
         if (this.isEdit) {
-            this.senhaFormGroup.get('senhaAtual')!.valueChanges.subscribe((val: string) => {
+            this.senhaFormGroup.get('senhaAtual')!.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: string) => {
                 const hasValue = val && val.length > 0;
                 const passwordCtrl = this.senhaFormGroup.get('password')!;
                 const confirmCtrl = this.senhaFormGroup.get('confirmPassword')!;
@@ -225,6 +228,11 @@ export class UsuarioModalComponent implements OnInit {
                 this.snackbar.error(err?.error?.message ?? 'Erro ao atualizar senha');
             },
         });
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     close(): void {

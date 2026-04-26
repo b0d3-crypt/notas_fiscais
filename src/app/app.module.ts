@@ -10,8 +10,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { UsuarioModalModule } from './views/usuarios/components/usuario-modal/usuario-modal.module';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
@@ -32,7 +30,6 @@ import { SidenavComponent } from './views/sidenav/sidenav.component';
     MatDialogModule,
     RouterModule,
     AppRoutingModule,
-    UsuarioModalModule,
   ],
   providers: [
     {
