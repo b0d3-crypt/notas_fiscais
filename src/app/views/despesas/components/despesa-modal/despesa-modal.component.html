@@ -116,7 +116,7 @@
       <button mat-stroked-button class="btn-outline-primary" (click)="close()">Fechar</button>
     </ng-container>
     <ng-container *ngIf="!isView">
-      <button mat-stroked-button (click)="close()" [disabled]="saving">Cancelar</button>
+      <button mat-stroked-button class="btn-outline-primary" (click)="close()" [disabled]="saving">Cancelar</button>
       <button mat-flat-button class="btn-primary-yellow" (click)="save()" [disabled]="saving">
         <mat-spinner *ngIf="saving" diameter="16" class="inline-block mr-1 btn-spinner"></mat-spinner>
         {{ saving ? 'Salvando...' : 'Salvar' }}

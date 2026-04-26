@@ -41,11 +41,11 @@
 
     <!-- Footer -->
     <div class="modal-footer">
-        <app-button color="basic" size="small" (click)="close()">Cancelar</app-button>
-        <app-button color="default" size="small" (click)="save()" [disabled]="saving">
-            <mat-spinner *ngIf="saving" diameter="16" class="inline-block mr-1"></mat-spinner>
+        <button mat-stroked-button class="btn-outline-primary" (click)="close()" [disabled]="saving">Cancelar</button>
+        <button mat-flat-button class="btn-primary-yellow" (click)="save()" [disabled]="saving">
+            <mat-spinner *ngIf="saving" diameter="16" class="inline-block mr-1 btn-spinner"></mat-spinner>
             {{ saving ? 'Salvando...' : 'Salvar' }}
-        </app-button>
+        </button>
     </div>
 
 </div>

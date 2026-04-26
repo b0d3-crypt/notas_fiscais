@@ -138,7 +138,7 @@ h2 {
 .mat-cell,
 .mat-header-cell {
   background-color: transparent !important;
-  @apply text-text dark:text-white;
+  @apply text-accent dark:text-gray-200;
 }
 
 .mat-header-cell {
@@ -150,10 +150,17 @@ h2 {
   border-bottom: 2px solid #e5e7eb !important;
 }
 
+.dark .mat-header-cell {
+  border-bottom-color: rgba(255, 185, 2, 0.35) !important;
+}
+
 .mat-cell {
   font-size: 0.875rem;
-  border-bottom-color: #f3f4f6 !important;
-  @apply dark:border-gray-800;
+  border-bottom-color: #e5e7eb !important;
+}
+
+.dark .mat-cell {
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
 }
 
 tr.mat-row:hover {
@@ -431,6 +438,10 @@ tr.mat-row:hover {
   font-weight: 600 !important;
   font-family: 'Nunito Sans', sans-serif !important;
   border-radius: 24px !important;
+
+  &[disabled] {
+    opacity: 0.5;
+  }
 }
 
 // mat-icon-button in dark header
